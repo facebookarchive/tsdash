@@ -1,0 +1,8 @@
+It needs gwt-2.3.0 or newer.
+
+To build run:
+
+   ant
+
+The compiled result will be at war/pulse/*
+

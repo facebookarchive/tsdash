@@ -1,0 +1,140 @@
+<!-- 
+Copyright 2011 Facebook, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+ -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style type="com.facebook.tsdb.pulse.client.ui.MetricWidget.Style">
+  .metric {
+     padding: 3px;
+     margin: 5px 1px 1px 1px;
+     border-top: 1px dotted #ccc;
+  }
+  
+  .metric .name {
+     font-weight: bold;
+     font-size: 16px;
+     background-image: url("img/length-measure.png");
+     background-repeat: no-repeat;
+     padding: 1px 3px 3px 30px;
+     margin: 1px;
+     float: left;
+  }
+  
+  .metric .enabled {
+	   color: black;
+	}
+	
+  .metric .disabled {
+	   color: #CCC;
+	}
+  
+  .metric .blue {
+	   color: #3AA9E0;
+	}
+  
+  .metric .del, .metric .clone {
+     cursor: pointer;
+     width: 20px;
+     height: 20px;
+     background-repeat: no-repeat;
+     margin: 4px 3px 1px 3px;
+     float: right;
+	}
+  
+  .metric .del {
+     background-image: url("img/gem_remove.png");
+  }
+  
+  .metric .clone {
+     background-image: url("img/clone.png");
+     background-position: 0 1px;
+	}
+  
+  .metric .loading {
+	   background-image: url("img/loading.gif");
+	}
+  
+  .metric .toggleButton {
+	   width: 24px;
+	   height: 24px;
+	   background-color: #eee;
+	   float: right;
+	   border: 1px solid #ccc;
+	   cursor: pointer;
+	   text-align: center;
+	   line-height: 20px;
+	   margin-top: 3px;
+  }
+  
+  .metric .aggregator {
+     float: left;
+	   padding: 3px 3px 1px 20px;
+	   background-image: url('img/agg.png');
+	   background-repeat: no-repeat;
+	   background-position: 0 5px;
+	   display: inline;
+	   margin: 3px 3px 0px 32px;
+  }
+  
+  .metric .toggleButton:hover {
+     border-color: #999;
+  }
+  
+  .metric .toggleButton:active {
+	   border-color: #000;
+  }
+  
+  .metric .pressedToggleButton {
+     background-color: #ccc;
+     border-color: #666;
+	}
+  
+  .top:hover .del, .top:hover .clone {
+	}
+
+  .tags {
+  }
+  
+  .metric .commit {
+	   float: right;
+	}
+
+	</ui:style>
+	<g:HTMLPanel styleName="{style.metric}">
+	  <g:HTMLPanel styleName="{style.top}">
+			<g:Label ui:field="nameLabel" styleName="{style.name} {style.enabled}"></g:Label>
+			<g:Label ui:field="delete" styleName="{style.del}" title="remove this metric"></g:Label>
+      <g:Label ui:field="clone" styleName="{style.clone}" title="clone this metric"></g:Label>      
+			<g:HTML visible="false" ui:field="rightAxis" styleName="{style.toggleButton}" title="place on the right Y axis">
+			 <img src="img/right_axis.png" style="vertical-align: middle;" />
+			</g:HTML>
+      <g:HTML styleName="clear"></g:HTML>
+			<g:HTMLPanel styleName="{style.aggregator}" title="aggregator">
+				<g:ListBox ui:field="aggregatorName">
+				</g:ListBox>
+				<g:CheckBox ui:field="aggregatorButton"></g:CheckBox>
+			</g:HTMLPanel>
+			<g:HTMLPanel styleName="{style.commit}">
+			 <g:Button ui:field="commit" enabled="false">add to plot</g:Button>
+			</g:HTMLPanel>
+			<g:Label visible="false" ui:field="rate" styleName="{style.toggleButton}" title="display the rate - delta/time">/s</g:Label>
+			<g:HTML styleName="clear"></g:HTML>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="{style.tags}" ui:field="tags">
+			<!-- <g:HTML styleName="clear"></g:HTML>  -->
+		</g:HTMLPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
