@@ -1,6 +1,6 @@
-<project name="OpenTSDB - pulse server" default="dist" basedir=".">
+<project name="OpenTSDB - tsdash server" default="dist" basedir=".">
     <description>
-      Build file for tsdb-server
+      Build file for tsdash-server
     </description>
   <property name="src" location="src"/>
   <property name="build" location="build"/>
@@ -22,7 +22,7 @@
 
   <target name="dist" depends="compile"
         description="generate the distribution" >
-    <jar jarfile="${build}/tsdb-pulse-server.jar" basedir="${build}"/>
+    <jar jarfile="${build}/tsdash-server.jar" basedir="${build}"/>
   </target>
 
   <target name="clean" description="clean up" >
