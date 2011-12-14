@@ -1,4 +1,4 @@
-This is Pulse, a UI for OpenTSDB (http://opentsdb.net/).
+This is TSDash, a UI/Dashboard for OpenTSDB (http://opentsdb.net/). It is written in Java and it's built entirely using Open-Source software.
 
 LICENSE
 -------
@@ -21,13 +21,12 @@ under the License.
 CONTENTS
 --------
 
-server/	- contains the sources for the server that offers a HTTP/JSON API for the UI
-ui/	- GWT sources for the UI
+server/	- contains the sources of the HTTP/JSON API needed by the UI
+ui/	- GWT UI
 
 BUILD
 =====
 
-to build each of the parts, run "ant" on both dirs. They can be deployed with any Servlet container. We tested it using Tomcat 7.0.20.
+to build each of the parts, run "ant" on each directory. For deployment you need any Servlet container; we used Tomcat 7.0.20.
 
-The projects can also be imported in Eclipse (File > Import > Existing project into workspace).
-For the UI, Google Eclipse Plugin must be installed before importing the project.
+The two parts can also be imported in Eclipse (File > Import > Existing project into workspace) as separate projects. For the UI, Google Eclipse Plugin must be installed before importing the project.
