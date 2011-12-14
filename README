@@ -27,6 +27,16 @@ ui/	- GWT UI
 BUILD
 =====
 
-to build each of the parts, run "ant" on each directory. For deployment you need any Servlet container; we used Tomcat 7.0.20.
+to build each of the parts, run "ant" on each directory. For deployment you need any Servlet container; we have used Tomcat 7.0.23.
 
 The two parts can also be imported in Eclipse (File > Import > Existing project into workspace) as separate projects. For the UI, Google Eclipse Plugin must be installed before importing the project.
+
+DEPLOY
+======
+
+To deploy TSDash, you have to serve the static files from ui/war in the root directory and you have to map the service requests to the Servlet endpoints. You can find an example of configuration for Tomcat 7.0.23 in conf/web.xml.
+Additionally, you have to install Gnuplot 4.2 or newer and to make it accessible from /usr/local/bin/gnuplot (symlink works also). Gnuplot will generate static images and these images have to be served also. What I did is that I've used nginx to serve the plots. How the files are being mapped to URLs you can configure with the "plot.tsdash.urlpattern" property from tsdash.properties file. Additionally, when starting the server you must provide TSDASH_PLOT_DIR environment variable as the filesystem path to the directory where Gnuplot writes the generated plots (images).
+
+TSDash can work without Gnuplot if you are willing to use only interactive charts, that are rendered in the browser.
+
+Check out the configuration files from conf/ for more tweaking.
