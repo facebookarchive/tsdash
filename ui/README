@@ -4,5 +4,5 @@ To build run:
 
    ant
 
-The compiled result will be at war/pulse/*
+The compiled result will be at war/tsdash/*
 

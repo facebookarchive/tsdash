@@ -1,0 +1,154 @@
+/** Add css rules here for your application. */
+
+body.tsdash {
+	margin: 0;
+	padding: 0;
+}
+
+#header {
+	padding: 5px;
+	background-color: #eee;
+	border-bottom: 1px solid white;
+}
+
+#header a.logo {
+	display: block;
+	float: left;
+	width: 106px;
+	height: 24px;
+	background: url('img/tsdash.png') top left no-repeat;
+	margin-left: 5px;
+}
+
+#header .url {
+	float: left;
+	margin: 3px 1px 1px 5px;
+}
+
+#header #topmenu {
+	float: right;
+	height: 16px;
+}
+
+#topmenu, #content {
+	padding: 3px;
+}
+
+#error {
+	position: absolute;
+	top: 10px;
+	left: 45%;
+}
+
+#content {
+  border-top: 1px solid #ccc;
+	clear: both;
+	padding: 10px 5px 5px 5px;
+}
+
+#content .graphMenu {
+	width: 25%;
+	float: left;
+}
+
+#content .graphContent {
+	width: 73%;
+	float: right;
+	overflow: hidden;
+}
+
+#content .graphMenu .metricsWidget {
+}
+
+/* fullscreen mode */
+
+body.fullscreen {
+	margin: 0;
+	padding: 0;
+}
+
+body.fullscreen #header, body.fullscreen #content .graphMenu {
+	display: none;
+}
+
+body.fullscreen #content {
+	padding: 0;
+	border: none;
+}
+
+body.fullscreen #content .graphContent {
+	float: none;
+	width: 100%;
+}
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 2px 0px 5px;
+}
+
+#content .timeWidget, #content .metricsWidget{
+}
+
+#content .graph {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.errorDetails {
+	 padding: 5px;
+}
+
+.errorDetailsPopup {
+	 width: 60%;
+	 height: 80%;
+	 overflow: scroll;
+}
+
+.allMetricsPopup {
+	 height: 300px;
+	 overflow-y: scroll; 
+}
+
+.bluetag {
+	background-color: #DAECF5;
+	border: 1px solid #1B9EE0;
+}
+
+.orangetag {
+	 background-color: #FFECD1;
+	 border: 1px solid #FA9C19; 
+}
+
+.purpletag {
+	background-color: #FFEDFA;
+	border: 1px solid #D166B5;
+}
+
+.yellowtag {
+  background-color: #FFFFDE;
+  border: 1px solid #C4BA70;
+}
+
+.greentag {
+  background-color: #D4F0BD;
+  border: 1px solid #56A352;
+}
+
+.redtag {
+  background-color: #FFE0DE;
+  border: 1px solid #D65049;
+}
+
+.autoreload .gwt-Button {
+	float: right;
+}
+
+.inputdisabled input, .inputdisabled select {
+	visibility: hidden;
+}

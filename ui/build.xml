@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="PulseUI" default="build" basedir=".">
+<project name="TSDashUI" default="build" basedir=".">
   <!-- Arguments to gwtc and devmode targets -->
   <property name="gwt.args" value="" />
 
@@ -39,19 +39,19 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="com.facebook.tsdb.pulse.Pulse"/>
+      <arg value="com.facebook.tsdb.tsdash.TSDash"/>
     </java>
   </target>
 
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">
-    <zip destfile="Pulse.war" basedir="war"/>
+    <zip destfile="TSDash.war" basedir="war"/>
   </target>
 
   <target name="clean" description="Cleans this project">
     <delete dir="war/WEB-INF/classes" failonerror="false" />
-    <delete dir="war/pulseentrypoint" failonerror="false" />
+    <delete dir="war/tsdashentrypoint" failonerror="false" />
   </target>
 
 </project>

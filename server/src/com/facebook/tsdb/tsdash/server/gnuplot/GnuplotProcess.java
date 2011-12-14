@@ -28,7 +28,7 @@ import com.facebook.tsdb.tsdash.server.model.Metric;
 
 public abstract class GnuplotProcess {
     
-    public static final String OUTPUT_DIR_ENV = "PULSE_PLOT_DIR";
+    public static final String OUTPUT_DIR_ENV = "TSDASH_PLOT_DIR";
     public static final String PIPES_DIR = "/tmp/plotter";
     public static final String BASH = "/bin/bash";
     public static final String GNUPLOT = "/usr/local/bin/gnuplot";

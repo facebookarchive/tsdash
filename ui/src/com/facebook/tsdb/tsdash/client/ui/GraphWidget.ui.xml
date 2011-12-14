@@ -1,0 +1,53 @@
+<!-- 
+Copyright 2011 Facebook, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+ -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.container {
+	}
+	
+	.replacement {
+     font-size: 12px;
+     color: #666;
+     background-color: #eee;
+     border: 1px solid #ccc;
+     padding: 10px;
+     margin: 30px 10px 30px 10px;
+	}
+	
+	</ui:style>
+	<g:HTMLPanel styleName="{style.container}" ui:field="container">
+	  <g:HTML styleName="{style.replacement}" ui:field="replacement">
+	     <img src="img/info.png" />
+	     <p>
+	       This is <b>TSDash</b>, a UI for <a href="http://opentsdb.net/">OpenTSDB</a>, providing a real-time tag-based monitoring tool. It's all based on open-source software including 
+	       <a href="http://opentsdb.net/">OpenTSDB</a>, <a href="http://hbase.apache.org/">HBase</a>, <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> and <a href="http://www.gnuplot.info/">Gnuplot</a>.
+	     </p>
+	     <p>
+	       Keyboard shortcuts:
+	       <ul>
+	         <li><b>Ctrl-F</b>: enter in fullscreen mode</li>
+	         <li><b>Ctrl-Space</b>: enable auto reloading</li>
+	       </ul>
+	       To get it started add a metric on the left form, choose some tags and add the metric to the plot.
+	       Please keep in mind that the aggregation and filtering is performed realtime and applying tags is essential in order to restrict the queries to your specific results and to avoid extremely high response time.
+	     </p>
+	  </g:HTML>
+		<g:HTML ui:field="json">
+		</g:HTML>
+	</g:HTMLPanel>
+</ui:UiBinder> 

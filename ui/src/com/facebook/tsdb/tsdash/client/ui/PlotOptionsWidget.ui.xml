@@ -1,0 +1,118 @@
+<!-- 
+Copyright 2011 Facebook, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+ -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style type='com.facebook.tsdb.tsdash.client.ui.PlotOptionsWidget.Style'>
+	.container {
+	   padding: 3px 3px 3px 3px;
+	   margin: 3px 3px 20px 3px;
+	}
+	
+	.links {
+}
+
+.links a {
+  padding: 3px;
+  margin: 3px;
+}
+
+.links .selected {
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  background-color: #06C;
+}
+
+.links .active {
+  color: #06C;
+  cursor: pointer;
+}
+
+.icon {
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+.options {
+	padding: 5px;
+	margin-left: 20px;
+	float: left;
+}
+
+.options input {
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.options img {
+	margin-right: 5px;
+}
+
+.options img, .options input, .toggleButton img {
+	vertical-align: middle;
+}
+
+ .toggleButton {
+     width: 24px;
+     height: 24px;
+     background-color: #eee;
+     border: 1px solid #ccc;
+     cursor: pointer;
+     text-align: center;
+     line-height: 20px;
+     margin-top: 3px;
+     float: left;
+  }
+
+.toggleButton:hover {
+     border-color: #999;
+  }
+  
+ .toggleButton:active {
+     border-color: #000;
+  }
+  
+ .pressedToggleButton {
+     background-color: #ccc;
+     border-color: #666;
+  }
+
+  .surfaceOptions {
+	   float: left;
+     margin-left: 10px;
+     padding: 3px;
+	}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.container}">
+	   <g:HTMLPanel styleName="{style.links}">
+		  <g:Image styleName="{style.icon}" url="img/chart_edit.png" title="plotting options"></g:Image>
+		  <g:Anchor styleName="{style.active}" ui:field="image">image</g:Anchor>
+      <g:Anchor styleName="{style.active}" ui:field="interactive">interactive</g:Anchor>
+      <g:HTML styleName="clear"></g:HTML>
+      <g:HTMLPanel ui:field="imageOptions">
+	      <g:HTMLPanel styleName="{style.options}">
+	          <g:RadioButton name="chart" ui:field="lineChart"></g:RadioButton><g:Image url="img/chart_line.png" title="2D line chart"></g:Image>
+	          <g:RadioButton name="chart" ui:field="surface"></g:RadioButton><g:Image url="img/cube.png" title="3D surface"></g:Image>
+	      </g:HTMLPanel>
+	      <g:HTMLPanel styleName="{style.surfaceOptions}" ui:field="surfaceOptions">
+					<g:ToggleButton ui:field="color"></g:ToggleButton>
+	      </g:HTMLPanel>
+      </g:HTMLPanel>
+		 </g:HTMLPanel>
+		 <g:HTML styleName="clear"></g:HTML>
+	</g:HTMLPanel>
+</ui:UiBinder>
