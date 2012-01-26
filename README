@@ -27,16 +27,26 @@ ui/	- GWT UI
 BUILD
 =====
 
-to build each of the parts, run "ant" on each directory. For deployment you need any Servlet container; we have used Tomcat 7.0.23.
+To build each of the parts, run "ant" on "server" and "ui" directories. To build a deployable bundle run "ant war" from the root dir and this should build each component and create a .war file - tsdash.war - out of these, that can be deployed with any Servlet container (e.g. Apache Tomcat).
 
 The two parts can also be imported in Eclipse (File > Import > Existing project into workspace) as separate projects. For the UI, Google Eclipse Plugin must be installed before importing the project.
 
 DEPLOY
 ======
 
-To deploy TSDash, you have to serve the static files from ui/war in the root directory and you have to map the service requests to the Servlet endpoints. You can find an example of configuration for Tomcat 7.0.23 in conf/web.xml.
-Additionally, you have to install Gnuplot 4.2 or newer and to make it accessible from /usr/local/bin/gnuplot (symlink works also). Gnuplot will generate static images and these images have to be served also. What I did is that I've used nginx to serve the plots. How the files are being mapped to URLs you can configure with the "plot.tsdash.urlpattern" property from tsdash.properties file. Additionally, when starting the server you must provide TSDASH_PLOT_DIR environment variable as the filesystem path to the directory where Gnuplot writes the generated plots (images).
+First you need to build the .war file and then use a Servlet container to serve it. In Apache Tomcat 7.0.23 you have to copy the .war file into the webapps/ directory and it will unpack the app at startup. You can also unpack it by yourself with "jar xvf tsdash.war", as the .war file is a regular archive.
 
-TSDash can work without Gnuplot if you are willing to use only interactive charts, that are rendered in the browser.
+Gnuplot
+-------
 
-Check out the configuration files from conf/ for more tweaking.
+Additionally, you have to install Gnuplot 4.2 or newer and to make it accessible from /usr/local/bin/gnuplot (symlink works). Gnuplot will generate static images and these images have to be served somehow. What I did is that I've used nginx to serve the plots. The mapping between files and URLs can be configured with the "plot.tsdash.urlpattern" property from tsdash.properties file. The default port used for serving the plots is 8090.
+So Gnuplot creates the files on the disk, and nginx is serving them through the generated URL.
+For example, my configuration is using nginx to listen on 8090 and serves the files from the /var/www/tsdash/plots dir. Hence, the URLs will look like http://host:8090/plots/34343.png. The advantage of separating plot serving from the app itself is that it's more flexible to use a different webserver for serving the plots, that might even be on a different machine. 
+
+TSDash can work without Gnuplot, but you will have to use only interactive charts, which are being rendered in the browser.
+
+CONFIGURATION
+============
+
+conf/tsdash.properties - contains parameters for OpenTSDB - table names and zookeeper quorom, as well as some configuration for the plot generation process
+conf/log4j.properties - configuration for the log4j package
