@@ -22,6 +22,7 @@
 
   <target name="dist" depends="compile"
         description="generate the distribution" >
+	<delete file="${build}/tsdash-server.jar" quiet="true" />
     <jar jarfile="${build}/tsdash-server.jar" basedir="${build}"/>
   </target>
 

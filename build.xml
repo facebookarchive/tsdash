@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="OpenTSDB - tsdash" basedir="." default="war">
+  <description>
+	Global build file for tsdash
+  </description>
+
+  <property name="server" location="server" />
+  <property name="ui" location="ui" />
+  <property name="conf" location="conf" />
+
+  <target name="server">
+	<echo>Building the server component...</echo>
+	<ant target="dist" dir="${server}" />
+  </target>
+
+  <target name="ui">
+	<echo>Building the UI...</echo>
+	<ant target="build" dir="${ui}" />
+  </target>
+
+  <target name="war" depends="server,ui">
+	<echo>Packing the .war file</echo>
+	<war destfile="tsdash.war" webxml="${conf}/web.xml">
+	  <lib dir="${server}/lib" />
+	  <lib file="${server}/build/tsdash-server.jar" />
+	  <fileset dir="${ui}/war" excludes="WEB-INF/">
+	  </fileset>
+	</war>
+  </target>
+
+  <target name="clean" description="Removes the .war file">
+	<delete file="tsdash.war" failonerror="false" />
+  </target>
+</project>
