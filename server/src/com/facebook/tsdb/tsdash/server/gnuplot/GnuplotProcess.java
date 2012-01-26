@@ -24,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.facebook.tsdb.tsdash.server.TsdbServlet;
 import com.facebook.tsdb.tsdash.server.model.Metric;
 
 public abstract class GnuplotProcess {
@@ -33,11 +34,6 @@ public abstract class GnuplotProcess {
     public static final String BASH = "/bin/bash";
     public static final String GNUPLOT = "/usr/local/bin/gnuplot";
     private static Random rand = new Random();
-    private static String outputDir;
-    
-    static {
-        outputDir = System.getenv(OUTPUT_DIR_ENV);
-    }
     
     protected Process gnuplot;
     protected BufferedWriter gnuplotStdin;
@@ -47,10 +43,6 @@ public abstract class GnuplotProcess {
     protected int plotNo = 0;
     
     public GnuplotProcess() throws Exception {
-        if (outputDir == null) {
-            throw new Exception("Output dir not specified. Please set "
-                    + OUTPUT_DIR_ENV + " envirnonment variable");
-        }
         id = rand.nextInt();
         if (id < 0) {
             id = - id;
@@ -68,11 +60,11 @@ public abstract class GnuplotProcess {
     }
     
     protected static String noDataFilename() {
-        return outputDir + "/no_data.jpg";
+        return TsdbServlet.plotsDir + "/no_data.jpg";
     }
     
     protected String getOutputFilename(GnuplotOptions options) {
-        return String.format("%s/%d-%d.%s", outputDir, id, plotNo,
+        return String.format("%s/%d-%d.%s", TsdbServlet.plotsDir, id, plotNo,
                 options.getTerminal());
     }
     

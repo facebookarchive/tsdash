@@ -48,6 +48,9 @@ public class TsdbServlet extends HttpServlet {
     public static final String URL_PATTERN_PARAM = "plot.tsdash.urlpattern";
     public static final String DEFAULT_URL_PATTERN = "http://%h:%p/plots/%f";
     public static final int DEFAULT_PLOT_PORT = 8090;
+    public static final String PLOTS_DIR_PARAM = "plot.tsdash.dir";
+    public static final String DEFAULT_PLOTS_DIR = "/tmp";
+    public static String plotsDir = DEFAULT_PLOTS_DIR;
     private static String URLPattern = DEFAULT_URL_PATTERN;
     private String hostname = null;
     
@@ -60,6 +63,9 @@ public class TsdbServlet extends HttpServlet {
             URLPattern = tsdbConf.getProperty(URL_PATTERN_PARAM,
                     DEFAULT_URL_PATTERN);
             logger.info("URL pattern: " + URLPattern);
+            plotsDir = tsdbConf.getProperty(PLOTS_DIR_PARAM,
+            		DEFAULT_PLOTS_DIR);
+            logger.info("Plots are being written to: " + plotsDir);
         } catch (FileNotFoundException e) {
             System.err.println("Cannot find " + PROPERTIES_FILE);
         } catch (IOException e) {
