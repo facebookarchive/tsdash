@@ -28,9 +28,9 @@ public class HBaseConnection {
     private static Logger logger =
             Logger.getLogger("com.facebook.tsdb.services");
 
-    public static final String DATA_TABLE_KEY = "hbase.tsdash.datatable";
-    public static final String UID_TABLE_KEY = "hbase.tsdash.uidtable";
-    public static final String ZK_QUORUM_KEY = "hbase.zookeeper.quorum";
+    public static final String TSDB_DATA_TABLE = "hbase.tsdash.datatable";
+    public static final String TSDB_UID_TABLE = "hbase.tsdash.uidtable";
+    public static final String ZK_QUORUM = "hbase.zookeeper.quorum";
     public static final String ZK_ZNODE_PARENT = "zookeeper.znode.parent";
 
     private static String dataTable = "tsdb";
@@ -39,14 +39,17 @@ public class HBaseConnection {
     private static Configuration conf = HBaseConfiguration.create();
 
     public static void configure(Properties tsdbConf) {
-        dataTable = tsdbConf.getProperty(DATA_TABLE_KEY, dataTable);
-        idsTable = tsdbConf.getProperty(UID_TABLE_KEY, idsTable);
-        final String zookeeperQuorum = tsdbConf.getProperty(ZK_QUORUM_KEY, "localhost");
-        final String parentZnode = tsdbConf.getProperty(ZK_ZNODE_PARENT, "/hbase");
-        conf.setStrings(ZK_QUORUM_KEY, zookeeperQuorum);
+        dataTable = tsdbConf.getProperty(TSDB_DATA_TABLE, dataTable);
+        idsTable = tsdbConf.getProperty(TSDB_UID_TABLE, idsTable);
+        final String zookeeperQuorum =
+            tsdbConf.getProperty(ZK_QUORUM,"localhost");
+        final String parentZnode =
+            tsdbConf.getProperty(ZK_ZNODE_PARENT, "/hbase");
+        conf.setStrings(ZK_QUORUM, zookeeperQuorum);
         conf.setStrings(ZK_ZNODE_PARENT, parentZnode);
-        logger.info("HBase configuration: using tables '" + dataTable + "', "
-                + "'" + idsTable + "', quorum '" + zookeeperQuorum + "':" + parentZnode);
+        logger.info("HBase configuration: "
+                + " using tables '" + dataTable + "', " + "'" + idsTable
+                + "', quorum '" + zookeeperQuorum + "':" + parentZnode);
     }
 
     public static HTable getDataTableConn() throws IOException {
