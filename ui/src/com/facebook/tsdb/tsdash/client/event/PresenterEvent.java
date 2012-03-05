@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,16 +15,15 @@
  */
 package com.facebook.tsdb.tsdash.client.event;
 
-
 import com.facebook.tsdb.tsdash.client.presenter.Presenter;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public abstract class PresenterEvent<T extends EventHandler> 
-    extends GwtEvent<T> {
+public abstract class PresenterEvent<T extends EventHandler> extends
+        GwtEvent<T> {
 
     protected Presenter source = null;
-    
+
     public Presenter getPresenterSource() {
         return source;
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,11 +20,11 @@ import com.google.gwt.event.shared.GwtEvent;
 public class LogEvent extends GwtEvent<LogEventHandler> {
 
     public static final GwtEvent.Type<LogEventHandler> TYPE =
-            new GwtEvent.Type<LogEventHandler>();
+        new GwtEvent.Type<LogEventHandler>();
 
-    private String title;
-    private String message;
-    
+    private final String title;
+    private final String message;
+
     public LogEvent(String title, String message) {
         this.title = title;
         this.message = message;
@@ -33,11 +33,11 @@ public class LogEvent extends GwtEvent<LogEventHandler> {
     public String getTitle() {
         return title;
     }
-    
+
     public String getMessage() {
         return message;
     }
-    
+
     @Override
     public GwtEvent.Type<LogEventHandler> getAssociatedType() {
         return TYPE;

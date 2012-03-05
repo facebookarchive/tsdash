@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,40 +19,39 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class ViewChangeEvent extends GwtEvent<ViewChangeEventHandler> {
 
-	public static final GwtEvent.Type<ViewChangeEventHandler> TYPE =
-			new GwtEvent.Type<ViewChangeEventHandler>();
-	
-	public enum View {
-		GRAPH, LOG;
-	}
-	
-	private View view;
-	
-	public ViewChangeEvent(View view) {
-		this.view = view;
-	}
+    public static final GwtEvent.Type<ViewChangeEventHandler> TYPE =
+        new GwtEvent.Type<ViewChangeEventHandler>();
 
-	public ViewChangeEvent(String name) {
-		this.view = View.valueOf(name);
-	}
-	
-	public View getView() {
-		return view;
-	}
-	
-	public String getViewToken() {
-		return view.toString().toLowerCase();
-	}
-	
-	@Override
-	public com.google.gwt.event.shared.GwtEvent.Type<ViewChangeEventHandler> 
-		getAssociatedType() {
-		return TYPE;
-	}
+    public enum View {
+        GRAPH, LOG;
+    }
 
-	@Override
-	protected void dispatch(ViewChangeEventHandler handler) {
-		handler.onChange(this);
-	}
+    private final View view;
+
+    public ViewChangeEvent(View view) {
+        this.view = view;
+    }
+
+    public ViewChangeEvent(String name) {
+        this.view = View.valueOf(name);
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public String getViewToken() {
+        return view.toString().toLowerCase();
+    }
+
+    @Override
+    public GwtEvent.Type<ViewChangeEventHandler> getAssociatedType() {
+        return TYPE;
+    }
+
+    @Override
+    protected void dispatch(ViewChangeEventHandler handler) {
+        handler.onChange(this);
+    }
 
 }

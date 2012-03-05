@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,8 +27,8 @@ public class PlotResponseDecoder extends JSONDecoder<PlotResponse> {
         PlotResponse response = new PlotResponse();
         response.dataSize = jsonText.length();
         JSONObject jsonObj = JSONParser.parseStrict(jsonText).isObject();
-        response.serverLoadTime =
-                (long) jsonObj.get("loadtime").isNumber().doubleValue();
+        response.serverLoadTime = (long) jsonObj.get("loadtime").isNumber()
+                .doubleValue();
         response.plotURL = jsonObj.get("ploturl").isString().stringValue();
         JSONArray jsonMetrics = jsonObj.get("metrics").isArray();
         for (int i = 0; i < jsonMetrics.size(); i++) {
@@ -36,6 +36,6 @@ public class PlotResponseDecoder extends JSONDecoder<PlotResponse> {
             response.metrics.add(MetricHeader.fromJSONObject(metricObj));
         }
         return response;
-        
+
     }
 }

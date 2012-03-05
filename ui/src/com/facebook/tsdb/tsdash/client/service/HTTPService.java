@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -44,7 +44,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class HTTPService {
 
     public static final int TIMEOUT = 30000; // ms
-    
+
     public static final String METRICS_URL = "metrics";
     public static final String DATA_URL = "data";
     public static final String PLOT_URL = "plot";
@@ -71,9 +71,9 @@ public class HTTPService {
         String param = "params=" + paramObj.toString();
         get(callback, DATA_URL, param, new TimeSeriesDecoder());
     }
-    
+
     public void loadMetricHeader(Metric metric, TimeRange timeRange,
-            final AsyncCallback<MetricHeader> callback) {        
+            final AsyncCallback<MetricHeader> callback) {
         JSONObject paramObj = new JSONObject();
         paramObj.put("tsFrom", new JSONNumber(timeRange.from / 1000));
         paramObj.put("tsTo", new JSONNumber(timeRange.to / 1000));
@@ -83,7 +83,7 @@ public class HTTPService {
         get(callback, METRIC_HEADER_URL, encodedParams,
                 new MetricHeaderDecoder());
     }
-    
+
     public void loadPlot(TimeRange timeRange, ArrayList<Metric> metrics,
             int width, int height, boolean surface, boolean palette,
             final AsyncCallback<PlotResponse> callback) {
@@ -104,18 +104,17 @@ public class HTTPService {
         String param = "params=" + paramObj.toString();
         get(callback, PLOT_URL, param, new PlotResponseDecoder());
     }
-    
-    private <T> void get(final AsyncCallback<T> callback, final String url, 
+
+    private <T> void get(final AsyncCallback<T> callback, final String url,
             String params, final JSONDecoder<T> decoder) {
-        RequestBuilder req = new RequestBuilder(RequestBuilder.GET, 
-                url + "?" + params);
+        RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url + "?"
+                + params);
         req.setTimeoutMillis(TIMEOUT);
         req.setCallback(new RequestCallback() {
             @Override
             public void onResponseReceived(Request request, Response response) {
                 try {
-                    T result = decoder.tryDecodeFromService(
-                            response.getText());
+                    T result = decoder.tryDecodeFromService(response.getText());
                     callback.onSuccess(result);
                 } catch (JSONParseException e) {
                     GWT.log("Error parsing data from '" + url + "'", e);

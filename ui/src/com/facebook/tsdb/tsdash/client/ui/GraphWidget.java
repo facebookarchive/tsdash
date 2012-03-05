@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,40 +26,40 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GraphWidget extends Composite 
-	implements GraphPresenter.GraphWidget{
+public class GraphWidget extends Composite implements
+        GraphPresenter.GraphWidget {
 
-	private static GraphWidgetUiBinder uiBinder = GWT
-			.create(GraphWidgetUiBinder.class);
+    private static GraphWidgetUiBinder uiBinder = GWT
+            .create(GraphWidgetUiBinder.class);
 
-	@UiField
-	HTMLPanel container;
-	
-	@UiField
-	Label replacement;
-	
-	@UiField
-	HTML json;
-	
-	interface GraphWidgetUiBinder extends UiBinder<Widget, GraphWidget> {
-	}
+    @UiField
+    HTMLPanel container;
 
-	public GraphWidget() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
+    @UiField
+    Label replacement;
 
-	@Override
-	public HasWidgets container() {
-		return container;
-	}
+    @UiField
+    HTML json;
 
-	@Override
-	public void setDumpJSON(String jsonDump) {
-		json.setHTML(jsonDump);
-	}
+    interface GraphWidgetUiBinder extends UiBinder<Widget, GraphWidget> {
+    }
 
-	@Override
-	public void setReplacementVisible(boolean visible) {
-		replacement.setVisible(visible);
-	}
+    public GraphWidget() {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    @Override
+    public HasWidgets container() {
+        return container;
+    }
+
+    @Override
+    public void setDumpJSON(String jsonDump) {
+        json.setHTML(jsonDump);
+    }
+
+    @Override
+    public void setReplacementVisible(boolean visible) {
+        replacement.setVisible(visible);
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,22 +33,26 @@ public class ErrorPresenter implements Presenter {
 
     public interface ErrorWidget {
         void setVisible(boolean visible);
+
         HasText title();
+
         HasHTML details();
+
         void showDetails();
+
         HasClickHandlers detailsButton();
     }
 
-    private HandlerManager eventBus;
-    private ErrorWidget widget;
-    
+    private final HandlerManager eventBus;
+    private final ErrorWidget widget;
+
     public ErrorPresenter(HandlerManager eventBus, ErrorWidget widget) {
         this.eventBus = eventBus;
         this.widget = widget;
         listenErrorEvent();
         bindWidget();
     }
-    
+
     private void bindWidget() {
         widget.detailsButton().addClickHandler(new ClickHandler() {
             @Override
@@ -57,7 +61,7 @@ public class ErrorPresenter implements Presenter {
             }
         });
     }
-    
+
     private void listenErrorEvent() {
         eventBus.addHandler(ErrorEvent.TYPE, new ErrorEventHandler() {
             @Override
@@ -82,10 +86,10 @@ public class ErrorPresenter implements Presenter {
             }
         });
     }
-    
+
     @Override
     public void go(HasWidgets container, ApplicationState appState) {
-        container.add((Widget)widget);
+        container.add((Widget) widget);
     }
 
 }

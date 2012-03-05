@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,7 +41,7 @@ public class InteractivePlot extends Plot {
 
     private JSONObject timeSeriesJSON = null;
     private static boolean APILoaded = false;
-    
+
     public InteractivePlot(HandlerManager eventBus, HasWidgets container) {
         super(eventBus, container);
     }
@@ -64,12 +64,11 @@ public class InteractivePlot extends Plot {
             GWT.log("cannot render: null data");
             return;
         }
-        DataTable dataTable = DataTable.create(
-                timeSeriesJSON.getJavaScriptObject());
+        DataTable dataTable = DataTable.create(timeSeriesJSON
+                .getJavaScriptObject());
         Widget w = (Widget) container;
         final AnnotatedTimeLine newChart = new AnnotatedTimeLine(dataTable,
-                getChartOptions(),
-                (w.getOffsetWidth() - 10) + "px",
+                getChartOptions(), (w.getOffsetWidth() - 10) + "px",
                 (w.getOffsetHeight() - 10) + "px");
         newChart.addReadyHandler(new ReadyHandler() {
             @Override
@@ -94,29 +93,31 @@ public class InteractivePlot extends Plot {
             final AsyncCallback<ArrayList<MetricHeader>> callback,
             final Command onRender) {
         service.loadTimeSeries(timeRange, metrics,
-                new AsyncCallback<TimeSeriesResponse> () {
-            @Override
-            public void onFailure(Throwable caught) {
-                callback.onFailure(caught);
-            }
-
-            @Override
-            public void onSuccess(final TimeSeriesResponse result) {
-                eventBus.fireEvent(new LogEvent("Data Load", "" + result));
-                if (result.rows == 0) {
-                    callback.onFailure(new TimeSeriesException("no data"));
-                    return;
-                }
-                timeSeriesJSON = result.timeSeriesJSON;
-                onRender.execute();
-                render(new Command() {
+                new AsyncCallback<TimeSeriesResponse>() {
                     @Override
-                    public void execute() {
-                        callback.onSuccess(result.metrics);
+                    public void onFailure(Throwable caught) {
+                        callback.onFailure(caught);
+                    }
+
+                    @Override
+                    public void onSuccess(final TimeSeriesResponse result) {
+                        eventBus.fireEvent(new LogEvent("Data Load", ""
+                                + result));
+                        if (result.rows == 0) {
+                            callback.onFailure(new TimeSeriesException(
+                                    "no data"));
+                            return;
+                        }
+                        timeSeriesJSON = result.timeSeriesJSON;
+                        onRender.execute();
+                        render(new Command() {
+                            @Override
+                            public void execute() {
+                                callback.onSuccess(result.metrics);
+                            }
+                        });
                     }
                 });
-            }
-        });
     }
 
 }

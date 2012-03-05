@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -48,135 +48,165 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MetricPresenter implements Presenter {
 
-	public interface MetricsFormWidget {
-		void focusSuggest(boolean focus);
-		HasValue<String> typedMetric();
-		HasClickHandlers addMetricButton();
-		HasWidgets metricsContainer();
-		void setMetricSuggestions(ArrayList<String> options);
-		int metricsCount();
-		void setLoadingVisible(boolean visible);
-		HasClickHandlers viewAllButton();
-		HasText viewAllButtonText();
-	}
-	
-	public interface MetricWidget {
-		HasClickHandlers deleteButton();
-		HasClickHandlers cloneButton();
-		HasClickHandlers rightAxisButton();
-		HasClickHandlers rateButton();
-		HasClickHandlers commitButton();
-		boolean isPressed(Object toggleButton);
-		String selectedAggregator();
-		void selectedAggregator(String aggregator);
-		HasChangeHandlers aggregator();
-		HasValue<Boolean> aggregatorSwitch();
-		void pressToggleButton(Object toggleButton, boolean pressed);
-		String getName();
-		HasWidgets tagsContainer();
-		void setEnabled(boolean enabled);
-		void markPlottable(boolean plottable);
-		void aggregatorEnabled(boolean enabled);
-		void commitEnabled(boolean enabled);
-		void commitVisible(boolean visible);
-	}
-	
-	public interface TagWidget {
-		HasClickHandlers deleteButton();
-		HasClickHandlers setValueButton();
-		HasClickHandlers removeValueButton();
-		String getSelectedValue();
-		void optionsVisible(boolean visible);
-		void setValue(String value);
-	}
-	
-	public interface MetricOptionWidget {
-	    HasText link();
-	    HasClickHandlers linkButton();
-	}
-	
-	private HandlerManager eventBus;
-	private HTTPService service;
-	private MetricsFormWidget widget;
-	private HashMap<String, MetricHeader> headers =
-	        new HashMap<String, MetricHeader>();
-	private ApplicationState appState;
-	// this is used only for metric header update
-	private HashMap<Metric, MetricWidget> metricsWidgets =
-	        new HashMap<Metric, MetricWidget>();
-	
-	private PopupPanel allMetricsPopup = new PopupPanel(true);
-	private HTMLPanel allMetricsContainer = new HTMLPanel("");
-	
-	public MetricPresenter(HandlerManager eventBus, HTTPService service, 
-	        MetricsFormWidget widget) {
-		this.eventBus = eventBus;
-		this.service = service;
-		this.widget = widget;
-		bindWidget();
-		listenHeaderUpdates();
-	}
+    public interface MetricsFormWidget {
+        void focusSuggest(boolean focus);
 
-	private void setupAllMetricsPopup() {
-	    allMetricsPopup.setWidget(allMetricsContainer);
-	    Widget w = (Widget) widget;
-	    int top = w.getAbsoluteTop() + 10;
-	    int left = w.getAbsoluteLeft() + 350;
-	    allMetricsPopup.setPopupPosition(left, top);
-	    allMetricsContainer.addStyleName("allMetricsPopup");
-	}
-	
-	private void listenHeaderUpdates() {
-	    eventBus.addHandler(MetricHeaderEvent.TYPE,
-	            new MetricHeaderEventHandler() {
-            @Override
-            public void onHeadersLoaded(MetricHeaderEvent event) {
-                int i = 0;
-                for (MetricHeader newHeader : event.getHeaders()) {
-                    Metric metric = appState.metrics.get(i);
-                    if (newHeader.compareTo(metric.header) != 0) {
-                        // update the header re-render
-                        metric.header = newHeader;
-                        MetricWidget metricWidget = metricsWidgets.get(metric);
-                        metricWidget.setEnabled(true);
-                        loadTagsWidgets(metricWidget, metric);
+        HasValue<String> typedMetric();
+
+        HasClickHandlers addMetricButton();
+
+        HasWidgets metricsContainer();
+
+        void setMetricSuggestions(ArrayList<String> options);
+
+        int metricsCount();
+
+        void setLoadingVisible(boolean visible);
+
+        HasClickHandlers viewAllButton();
+
+        HasText viewAllButtonText();
+    }
+
+    public interface MetricWidget {
+        HasClickHandlers deleteButton();
+
+        HasClickHandlers cloneButton();
+
+        HasClickHandlers rightAxisButton();
+
+        HasClickHandlers rateButton();
+
+        HasClickHandlers commitButton();
+
+        boolean isPressed(Object toggleButton);
+
+        String selectedAggregator();
+
+        void selectedAggregator(String aggregator);
+
+        HasChangeHandlers aggregator();
+
+        HasValue<Boolean> aggregatorSwitch();
+
+        void pressToggleButton(Object toggleButton, boolean pressed);
+
+        String getName();
+
+        HasWidgets tagsContainer();
+
+        void setEnabled(boolean enabled);
+
+        void markPlottable(boolean plottable);
+
+        void aggregatorEnabled(boolean enabled);
+
+        void commitEnabled(boolean enabled);
+
+        void commitVisible(boolean visible);
+    }
+
+    public interface TagWidget {
+        HasClickHandlers deleteButton();
+
+        HasClickHandlers setValueButton();
+
+        HasClickHandlers removeValueButton();
+
+        String getSelectedValue();
+
+        void optionsVisible(boolean visible);
+
+        void setValue(String value);
+    }
+
+    public interface MetricOptionWidget {
+        HasText link();
+
+        HasClickHandlers linkButton();
+    }
+
+    private final HandlerManager eventBus;
+    private final HTTPService service;
+    private final MetricsFormWidget widget;
+    private final HashMap<String, MetricHeader> headers =
+        new HashMap<String, MetricHeader>();
+    private ApplicationState appState;
+    // this is used only for metric header update
+    private final HashMap<Metric, MetricWidget> metricsWidgets =
+        new HashMap<Metric, MetricWidget>();
+
+    private final PopupPanel allMetricsPopup = new PopupPanel(true);
+    private final HTMLPanel allMetricsContainer = new HTMLPanel("");
+
+    public MetricPresenter(HandlerManager eventBus, HTTPService service,
+            MetricsFormWidget widget) {
+        this.eventBus = eventBus;
+        this.service = service;
+        this.widget = widget;
+        bindWidget();
+        listenHeaderUpdates();
+    }
+
+    private void setupAllMetricsPopup() {
+        allMetricsPopup.setWidget(allMetricsContainer);
+        Widget w = (Widget) widget;
+        int top = w.getAbsoluteTop() + 10;
+        int left = w.getAbsoluteLeft() + 350;
+        allMetricsPopup.setPopupPosition(left, top);
+        allMetricsContainer.addStyleName("allMetricsPopup");
+    }
+
+    private void listenHeaderUpdates() {
+        eventBus.addHandler(MetricHeaderEvent.TYPE,
+                new MetricHeaderEventHandler() {
+                    @Override
+                    public void onHeadersLoaded(MetricHeaderEvent event) {
+                        int i = 0;
+                        for (MetricHeader newHeader : event.getHeaders()) {
+                            Metric metric = appState.metrics.get(i);
+                            if (newHeader.compareTo(metric.header) != 0) {
+                                // update the header re-render
+                                metric.header = newHeader;
+                                MetricWidget metricWidget = metricsWidgets
+                                        .get(metric);
+                                metricWidget.setEnabled(true);
+                                loadTagsWidgets(metricWidget, metric);
+                            }
+                            i++;
+                        }
                     }
-                    i++;
-                }
-            }
-	    });
-	}
-	
-	private void loadMetricHeader(final Metric metric,
-	        final Command cmd) {
+                });
+    }
+
+    private void loadMetricHeader(final Metric metric, final Command cmd) {
         TimeRange timeRange = appState.getAndUpdateTimeRange();
         widget.setLoadingVisible(true);
         service.loadMetricHeader(metric, timeRange,
                 new AsyncCallback<MetricHeader>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                eventBus.fireEvent(new ErrorEvent(caught));
-            }
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        eventBus.fireEvent(new ErrorEvent(caught));
+                    }
 
-            @Override
-            public void onSuccess(MetricHeader result) {
-                metric.header = result;
-                headers.put(metric.getSignature(), result);
-                widget.setLoadingVisible(false);
-                cmd.execute();
-            }
-        });
-	}
+                    @Override
+                    public void onSuccess(MetricHeader result) {
+                        metric.header = result;
+                        headers.put(metric.getSignature(), result);
+                        widget.setLoadingVisible(false);
+                        cmd.execute();
+                    }
+                });
+    }
 
-	private void getCachedHeader(Metric metric,
-	        final Command cmd) {
-	    if (headers.containsKey(metric.getSignature())) {
-	        metric.header = headers.get(metric.getSignature());
-	        cmd.execute();
-	    } else {
-	        loadMetricHeader(metric, cmd);
-	    }
-	}
+    private void getCachedHeader(Metric metric, final Command cmd) {
+        if (headers.containsKey(metric.getSignature())) {
+            metric.header = headers.get(metric.getSignature());
+            cmd.execute();
+        } else {
+            loadMetricHeader(metric, cmd);
+        }
+    }
 
     private void bindWidget() {
         // ADD METRIC
@@ -225,12 +255,11 @@ public class MetricPresenter implements Presenter {
         return new com.facebook.tsdb.tsdash.client.ui.TagWidget(tag, options);
     }
 
-	private TagWidget addTag(final MetricWidget metricWidget, 
-			final Metric metric,
-			final String tagName) {
-	    final TagWidget tagWidget = createTagWidget(metric, tagName);
-	    // TAG SET
-		tagWidget.setValueButton().addClickHandler(new ClickHandler() {
+    private TagWidget addTag(final MetricWidget metricWidget,
+            final Metric metric, final String tagName) {
+        final TagWidget tagWidget = createTagWidget(metric, tagName);
+        // TAG SET
+        tagWidget.setValueButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 String tagValue = tagWidget.getSelectedValue();
@@ -245,12 +274,12 @@ public class MetricPresenter implements Presenter {
                     });
                     return;
                 }
-                eventBus.fireEvent(new TagEvent(TagEvent.Operation.SET,
-                        metric, tagName, tagValue));
+                eventBus.fireEvent(new TagEvent(TagEvent.Operation.SET, metric,
+                        tagName, tagValue));
             }
-		});
-		// TAG REMOVE VALUE
-		tagWidget.removeValueButton().addClickHandler(new ClickHandler() {
+        });
+        // TAG REMOVE VALUE
+        tagWidget.removeValueButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 metric.tags.remove(tagName);
@@ -266,21 +295,21 @@ public class MetricPresenter implements Presenter {
                 eventBus.fireEvent(new TagEvent(TagEvent.Operation.REMOVE,
                         metric, tagName, null));
             }
-		});
-		metricWidget.tagsContainer().add((Widget)tagWidget);
-		return tagWidget;
-	}
+        });
+        metricWidget.tagsContainer().add((Widget) tagWidget);
+        return tagWidget;
+    }
 
-	private void loadTagsWidgets(MetricWidget metricWidget, Metric metric) {
-	    metricWidget.tagsContainer().clear();
+    private void loadTagsWidgets(MetricWidget metricWidget, Metric metric) {
+        metricWidget.tagsContainer().clear();
         for (String tagName : metric.header.tagsSet.keySet()) {
             addTag(metricWidget, metric, tagName);
         }
-	}
-	
+    }
+
     private MetricWidget addMetric(final Metric metric) {
-        final MetricWidget metricWidget = 
-                new com.facebook.tsdb.tsdash.client.ui.MetricWidget(metric.name);
+        final MetricWidget metricWidget =
+            new com.facebook.tsdb.tsdash.client.ui.MetricWidget(metric.name);
         // store the mapping for header update
         metricsWidgets.put(metric, metricWidget);
         // DELETE
@@ -291,15 +320,15 @@ public class MetricPresenter implements Presenter {
                 if (!metric.isPlottable()) {
                     return;
                 }
-                eventBus.fireEvent(new MetricEvent(MetricEvent.Operation.DELETE,
-                        metric));
+                eventBus.fireEvent(new MetricEvent(
+                        MetricEvent.Operation.DELETE, metric));
             }
         });
         // CLONE
         metricWidget.cloneButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                addMetric(metric.clone());
+                addMetric(metric.dup());
             }
         });
         // COMMIT
@@ -325,16 +354,15 @@ public class MetricPresenter implements Presenter {
                         }
                         if (event.getValue() == true) {
                             // the aggregator has just been enabled
-                            metric.aggregator = 
-                                    metricWidget.selectedAggregator();
+                            metric.aggregator = metricWidget
+                                    .selectedAggregator();
                         } else {
                             metric.aggregator = null;
                         }
-                        eventBus.fireEvent(new MetricEvent(MetricEvent.Operation.AGGREGATE,
-                                metric));
+                        eventBus.fireEvent(new MetricEvent(
+                                MetricEvent.Operation.AGGREGATE, metric));
                     }
-                }
-            );
+                });
         // AGGREGATOR CHANGE
         metricWidget.aggregator().addChangeHandler(new ChangeHandler() {
             @Override
@@ -346,7 +374,7 @@ public class MetricPresenter implements Presenter {
                 if (metric.aggregator != null) {
                     metric.aggregator = metricWidget.selectedAggregator();
                     eventBus.fireEvent(new MetricEvent(
-                            MetricEvent.Operation.AGGREGATE, metric));                    
+                            MetricEvent.Operation.AGGREGATE, metric));
                 }
             }
         });
@@ -354,27 +382,24 @@ public class MetricPresenter implements Presenter {
         ClickHandler toggleButtonHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                metricWidget.pressToggleButton(
-                        event.getSource(),
-                        !metricWidget.isPressed(event.getSource())
-                    );
-                metric.rightAxis = 
-                        metricWidget.isPressed(metricWidget.rightAxisButton());
-                metric.rate = 
-                        metricWidget.isPressed(metricWidget.rateButton());
+                metricWidget.pressToggleButton(event.getSource(),
+                        !metricWidget.isPressed(event.getSource()));
+                metric.rightAxis = metricWidget.isPressed(metricWidget
+                        .rightAxisButton());
+                metric.rate = metricWidget.isPressed(metricWidget.rateButton());
                 eventBus.fireEvent(new MetricEvent(
-                        MetricEvent.Operation.PARAM_TOGGLE,metric));
+                        MetricEvent.Operation.PARAM_TOGGLE, metric));
             }
         };
         metricWidget.rightAxisButton().addClickHandler(toggleButtonHandler);
         metricWidget.rateButton().addClickHandler(toggleButtonHandler);
-        
+
         if (metric.header.tagsSet.size() == 0) {
             metricWidget.setEnabled(false);
         } else {
             metricWidget.pressToggleButton(metricWidget.rightAxisButton(),
                     metric.rightAxis);
-            metricWidget.pressToggleButton(metricWidget.rateButton(), 
+            metricWidget.pressToggleButton(metricWidget.rateButton(),
                     metric.rate);
             if (!metric.isPlottable()) {
                 metricWidget.markPlottable(false);
@@ -389,19 +414,19 @@ public class MetricPresenter implements Presenter {
         widget.metricsContainer().add((Widget) metricWidget);
         return metricWidget;
     }
-    	
-	private void loadMetrics(ArrayList<Metric> metrics) {
+
+    private void loadMetrics(ArrayList<Metric> metrics) {
         widget.metricsContainer().clear();
         for (Metric metric : metrics) {
             addMetric(metric);
         }
-	}
-	
-	private void addMetricOption(final String metricName) {
-	    MetricOptionWidget optionWidget =
-	            new com.facebook.tsdb.tsdash.client.ui.MetricOptionWidget();
-	    optionWidget.link().setText(metricName);
-	    optionWidget.linkButton().addClickHandler(new ClickHandler() {
+    }
+
+    private void addMetricOption(final String metricName) {
+        MetricOptionWidget optionWidget =
+            new com.facebook.tsdb.tsdash.client.ui.MetricOptionWidget();
+        optionWidget.link().setText(metricName);
+        optionWidget.linkButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 final Metric newMetric = new Metric(metricName);
@@ -413,16 +438,17 @@ public class MetricPresenter implements Presenter {
                     }
                 });
             }
-	    });
-	    allMetricsContainer.add((Widget) optionWidget);
-	}
+        });
+        allMetricsContainer.add((Widget) optionWidget);
+    }
 
-	@Override
-	public void go(final HasWidgets container, final ApplicationState appState){
-	    this.appState = appState;
-		container.add((com.google.gwt.user.client.ui.Widget)widget);
-		widget.focusSuggest(true);
-		loadMetrics(appState.metrics);
+    @Override
+    public void go(final HasWidgets container,
+            final ApplicationState appState) {
+        this.appState = appState;
+        container.add((com.google.gwt.user.client.ui.Widget) widget);
+        widget.focusSuggest(true);
+        loadMetrics(appState.metrics);
         service.loadMetricsName(new AsyncCallback<ArrayList<String>>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -442,5 +468,5 @@ public class MetricPresenter implements Presenter {
                 }
             }
         });
-	}
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,77 +36,79 @@ import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MetricsFormWidget extends Composite 
-	implements MetricPresenter.MetricsFormWidget {
+public class MetricsFormWidget extends Composite implements
+        MetricPresenter.MetricsFormWidget {
 
-	private static MetricsFormWidgetUiBinder uiBinder = GWT
-			.create(MetricsFormWidgetUiBinder.class);
+    private static MetricsFormWidgetUiBinder uiBinder = GWT
+            .create(MetricsFormWidgetUiBinder.class);
 
-	interface MetricsFormWidgetUiBinder extends UiBinder<Widget, MetricsFormWidget> {
-	}
+    interface MetricsFormWidgetUiBinder extends
+            UiBinder<Widget, MetricsFormWidget> {
+    }
 
-	private MultiWordSuggestOracle suggestOracle = new MultiWordSuggestOracle();
-	
-	@UiField
-	Button addMetric;
-	
-	@UiField
-	HTMLPanel metricsContainer;
-	
-	@UiField
-	HTMLPanel container;
-	
-	@UiField
-	Image loading;
-	
-	@UiField
-	Anchor viewAll;
-	
-	@UiField(provided = true)
-	SuggestBox suggest;
-	
-	public MetricsFormWidget() {
-		suggest = new SuggestBox(suggestOracle);
-		initWidget(uiBinder.createAndBindUi(this));
-		suggest.getTextBox().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				suggest.getTextBox().setFocus(true);
-				suggest.getTextBox().selectAll();
-			}
-		});
-	}
+    private final MultiWordSuggestOracle suggestOracle =
+        new MultiWordSuggestOracle();
 
-	@Override
-	public void focusSuggest(boolean focus) {
-		suggest.getTextBox().setFocus(focus);
-	}
+    @UiField
+    Button addMetric;
 
-	@Override
-	public HasValue<String> typedMetric() {
-		return suggest.getTextBox();
-	}
+    @UiField
+    HTMLPanel metricsContainer;
 
-	@Override
-	public HasClickHandlers addMetricButton() {
-		return addMetric;
-	}
+    @UiField
+    HTMLPanel container;
 
-	@Override
-	public HasWidgets metricsContainer() {
-		return metricsContainer;
-	}
+    @UiField
+    Image loading;
 
-	@Override
-	public void setMetricSuggestions(ArrayList<String> options) {
-		suggestOracle.clear();
-		suggestOracle.addAll(options);
-	}
+    @UiField
+    Anchor viewAll;
 
-	@Override
-	public int metricsCount() {
-		return metricsContainer.getWidgetCount();
-	}
+    @UiField(provided = true)
+    SuggestBox suggest;
+
+    public MetricsFormWidget() {
+        suggest = new SuggestBox(suggestOracle);
+        initWidget(uiBinder.createAndBindUi(this));
+        suggest.getTextBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                suggest.getTextBox().setFocus(true);
+                suggest.getTextBox().selectAll();
+            }
+        });
+    }
+
+    @Override
+    public void focusSuggest(boolean focus) {
+        suggest.getTextBox().setFocus(focus);
+    }
+
+    @Override
+    public HasValue<String> typedMetric() {
+        return suggest.getTextBox();
+    }
+
+    @Override
+    public HasClickHandlers addMetricButton() {
+        return addMetric;
+    }
+
+    @Override
+    public HasWidgets metricsContainer() {
+        return metricsContainer;
+    }
+
+    @Override
+    public void setMetricSuggestions(ArrayList<String> options) {
+        suggestOracle.clear();
+        suggestOracle.addAll(options);
+    }
+
+    @Override
+    public int metricsCount() {
+        return metricsContainer.getWidgetCount();
+    }
 
     @Override
     public void setLoadingVisible(boolean visible) {

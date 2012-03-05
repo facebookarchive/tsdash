@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,11 +17,11 @@ package com.facebook.tsdb.tsdash.server.data.agg;
 
 public class MaxAggregator implements Aggregator {
 
-    private double max = - Double.MAX_VALUE;
-    
+    private double max = -Double.MAX_VALUE;
+
     @Override
     public void reset() {
-        max = - Double.MAX_VALUE;
+        max = -Double.MAX_VALUE;
     }
 
     @Override

@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,15 +31,15 @@ import com.facebook.tsdb.tsdash.server.model.Tag;
 
 public class RowTagFilter {
 
-    protected static Logger logger =
-            Logger.getLogger("com.facebook.tsdb.services");
-    
-    private Tag[] tags;
-    
+    protected static Logger logger = Logger
+            .getLogger("com.facebook.tsdb.services");
+
+    private final Tag[] tags;
+
     public RowTagFilter(Tag[] tags) {
         this.tags = tags;
     }
-    
+
     public RowTagFilter(Map<String, String> tags, IDMap idMap) {
         ArrayList<Tag> tagsList = new ArrayList<Tag>();
         for (String tag : tags.keySet()) {
@@ -55,12 +55,12 @@ public class RowTagFilter {
         Collections.sort(tagsList, Tag.keyComparator());
         this.tags = tagsList.toArray(new Tag[0]);
     }
-    
+
     /**
      * decide if we filter the row or not
+     *
      * @param timeSeries
-     * @return true if we have to filter it
-     *         false if we can accept it
+     * @return true if we have to filter it false if we can accept it
      */
     public boolean filterRow(Tag[] rowTags) {
         // all filter tags must exist in the row tag list
@@ -79,9 +79,10 @@ public class RowTagFilter {
         }
         return false;
     }
-    
+
     /**
      * generate the RowFilter used for filter rows remotely, in the RegionServer
+     *
      * @return
      */
     public Filter getRemoteFilter() {
@@ -92,7 +93,8 @@ public class RowTagFilter {
         }
         return filterList;
     }
-    
+
+    @Override
     public String toString() {
         String ret = "";
         for (Tag tag : tags) {
@@ -100,5 +102,5 @@ public class RowTagFilter {
         }
         return ret;
     }
-    
+
 }

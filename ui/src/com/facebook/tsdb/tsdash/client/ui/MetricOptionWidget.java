@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,8 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.facebook.tsdb.tsdash.client.presenter.MetricPresenter;
 
-public class MetricOptionWidget extends Composite
-implements MetricPresenter.MetricOptionWidget {
+public class MetricOptionWidget extends Composite implements
+        MetricPresenter.MetricOptionWidget {
 
     private static MetricOptionWidgetUiBinder uiBinder = GWT
             .create(MetricOptionWidgetUiBinder.class);
@@ -38,7 +38,7 @@ implements MetricPresenter.MetricOptionWidget {
 
     @UiField
     Anchor link;
-    
+
     public MetricOptionWidget() {
         initWidget(uiBinder.createAndBindUi(this));
     }

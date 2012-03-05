@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package com.facebook.tsdb.tsdash.server.gnuplot;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,14 +33,15 @@ public class Gnuplot2D extends GnuplotProcess {
 
     private void write2DTimeSeries(ArrayList<DataPoint> dataPoints,
             String dataPipe) throws IOException {
-        BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(dataPipe)));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(dataPipe)));
         for (DataPoint point : dataPoints) {
             writer.write(String.format("%d %.2f\n", point.ts, point.value));
         }
         writer.close();
     }
-    
+
+    @Override
     public String plot(Metric[] metrics, GnuplotOptions options)
             throws Exception {
         int count = 0;
@@ -59,8 +61,7 @@ public class Gnuplot2D extends GnuplotProcess {
         for (Metric metric : metrics) {
             for (TagsArray rowTags : metric.timeSeries.keySet()) {
                 if (metric.timeSeries.get(rowTags).size() > 0) {
-                    options.addDataSource(new DataSource(
-                            getPipeFilename(i),
+                    options.addDataSource(new DataSource(getPipeFilename(i),
                             metric.getName() + "{" + rowTags.getTitle() + "}"));
                     i++;
                 }
@@ -73,8 +74,8 @@ public class Gnuplot2D extends GnuplotProcess {
         i = 0;
         for (Metric metric : metrics) {
             for (TagsArray rowTags : metric.timeSeries.keySet()) {
-                ArrayList<DataPoint> dataPoints = 
-                        metric.timeSeries.get(rowTags);
+                ArrayList<DataPoint> dataPoints = metric.timeSeries
+                        .get(rowTags);
                 if (dataPoints.size() > 0) {
                     write2DTimeSeries(dataPoints, getPipeFilename(i));
                     i++;

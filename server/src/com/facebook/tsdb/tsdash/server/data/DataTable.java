@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,12 +26,12 @@ import com.facebook.tsdb.tsdash.server.model.TagsArray;
 
 public class DataTable {
 
-    private Metric[] metrics;
-    
+    private final Metric[] metrics;
+
     public DataTable(Metric[] metrics) {
         this.metrics = metrics;
     }
-    
+
     @SuppressWarnings("unchecked")
     private JSONObject newColumn(String label, String type) {
         JSONObject col = new JSONObject();
@@ -39,7 +39,7 @@ public class DataTable {
         col.put("type", type);
         return col;
     }
-    
+
     @SuppressWarnings("unchecked")
     private JSONArray generateColumns() {
         JSONArray cols = new JSONArray();
@@ -53,21 +53,21 @@ public class DataTable {
         }
         return cols;
     }
-    
+
     @SuppressWarnings("unchecked")
     private JSONObject newDataCell(double value) {
         JSONObject cell = new JSONObject();
         cell.put("v", value);
         return cell;
     }
-    
+
     @SuppressWarnings("unchecked")
     private JSONObject newTsCell(long ts) {
         JSONObject cell = new JSONObject();
         cell.put("v", ts * 1000);
         return cell;
     }
-    
+
     @SuppressWarnings("unchecked")
     private JSONArray generateRows() {
         // figure out the entire time series
@@ -100,7 +100,7 @@ public class DataTable {
         }
         return rows;
     }
-    
+
     @SuppressWarnings("unchecked")
     public JSONObject toJSONObject() {
         JSONObject result = new JSONObject();

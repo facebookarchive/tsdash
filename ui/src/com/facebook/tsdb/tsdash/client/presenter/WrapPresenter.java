@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,33 +17,32 @@ package com.facebook.tsdb.tsdash.client.presenter;
 
 import java.util.ArrayList;
 
-
 import com.facebook.tsdb.tsdash.client.model.ApplicationState;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class WrapPresenter implements Presenter {
 
-    private HTMLPanel wrapper = new HTMLPanel("");
-    private String className = "wrapper"; 
-    
-    private ArrayList<Presenter> presenters = new ArrayList<Presenter>();
-    
+    private final HTMLPanel wrapper = new HTMLPanel("");
+    private String className = "wrapper";
+
+    private final ArrayList<Presenter> presenters = new ArrayList<Presenter>();
+
     public WrapPresenter() {
     }
-    
+
     public WrapPresenter(String className) {
         this.className = className;
     }
-    
+
     public void add(Presenter presenter) {
         presenters.add(presenter);
     }
-    
+
     public ArrayList<Presenter> getPresenters() {
         return presenters;
     }
-    
+
     @Override
     public void go(HasWidgets container, ApplicationState appState) {
         wrapper.clear();

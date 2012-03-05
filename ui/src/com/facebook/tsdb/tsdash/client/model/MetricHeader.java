@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,15 +27,15 @@ public class MetricHeader implements Comparable<MetricHeader> {
     public String name;
     public HashSet<String> commonTags = new HashSet<String>();
     public HashMap<String, ArrayList<String>> tagsSet =
-            new HashMap<String, ArrayList<String>>();
-    
+        new HashMap<String, ArrayList<String>>();
+
     public MetricHeader(String name) {
         this.name = name;
     }
-    
+
     public static MetricHeader fromJSONObject(JSONObject obj) {
-        MetricHeader metricData = new MetricHeader(
-                obj.get("name").isString().stringValue());
+        MetricHeader metricData = new MetricHeader(obj.get("name").isString()
+                .stringValue());
         // tags set
         JSONObject tagsObj = obj.get("tags").isObject();
         for (String tag : tagsObj.keySet()) {
@@ -49,12 +49,13 @@ public class MetricHeader implements Comparable<MetricHeader> {
         // common tags
         JSONArray commonTagsArray = obj.get("commontags").isArray();
         for (int i = 0; i < commonTagsArray.size(); i++) {
-            metricData.commonTags.add(
-                    commonTagsArray.get(i).isString().stringValue());
+            metricData.commonTags.add(commonTagsArray.get(i).isString()
+                    .stringValue());
         }
         return metricData;
     }
-    
+
+    @Override
     public String toString() {
         String ret = name + ": ";
         for (String tag : tagsSet.keySet()) {

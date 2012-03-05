@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,10 +36,11 @@ import com.facebook.tsdb.tsdash.server.model.MetricQuery;
 public class PlotEndpoint extends TsdbServlet {
 
     private static final long serialVersionUID = 1L;
-    
+
+    @Override
     @SuppressWarnings("unchecked")
-    public void doGet(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
@@ -64,8 +65,8 @@ public class PlotEndpoint extends TsdbServlet {
             }
             MetricQuery[] metricQueries = new MetricQuery[metricsArray.size()];
             for (int i = 0; i < metricsArray.size(); i++) {
-                metricQueries[i] = MetricQuery.fromJSONObject(
-                        (JSONObject) metricsArray.get(i));
+                metricQueries[i] = MetricQuery
+                        .fromJSONObject((JSONObject) metricsArray.get(i));
             }
             TsdbDataProvider dataProvider = TsdbDataProviderFactory.get();
             long ts = System.currentTimeMillis();
@@ -98,8 +99,8 @@ public class PlotEndpoint extends TsdbServlet {
             GnuplotProcess gnuplot = GnuplotProcess.create(surface);
             GnuplotOptions options = new GnuplotOptions(surface);
             options.enablePalette(palette);
-            options.setDimensions((int) width, (int) height)
-                .setTimeRange(tsFrom, tsTo);
+            options.setDimensions((int) width, (int) height).setTimeRange(
+                    tsFrom, tsTo);
             String plotFilename = gnuplot.plot(metrics, options);
             gnuplot.close();
 
@@ -109,12 +110,12 @@ public class PlotEndpoint extends TsdbServlet {
             out.println(responseObj.toJSONString());
             long renderTime = System.currentTimeMillis() - ts - loadTime;
             logger.info("[Plot] time frame: " + (tsTo - tsFrom) + "s, "
-                    + "load time: " + loadTime + "ms, "
-                    + "render time: " + renderTime + "ms");
+                    + "load time: " + loadTime + "ms, " + "render time: "
+                    + renderTime + "ms");
         } catch (Throwable e) {
             out.println(getErrorResponse(e));
         }
         out.close();
-    }    
+    }
 
 }

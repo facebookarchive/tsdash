@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,9 +29,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-
-public class ErrorWidget extends Composite 
-        implements ErrorPresenter.ErrorWidget {
+public class ErrorWidget extends Composite implements
+        ErrorPresenter.ErrorWidget {
 
     private static ErrorWidgetUiBinder uiBinder = GWT
             .create(ErrorWidgetUiBinder.class);
@@ -41,14 +40,14 @@ public class ErrorWidget extends Composite
 
     @UiField
     Label title;
-    
+
     HTML details = new HTML("");
-    
+
     @UiField
     Anchor detailsButton;
-    
+
     PopupPanel popup = new PopupPanel(true, true);
-    
+
     public ErrorWidget() {
         setupWidget();
         initWidget(uiBinder.createAndBindUi(this));
@@ -60,7 +59,7 @@ public class ErrorWidget extends Composite
         details.addStyleName("errorDetails");
         popup.addStyleName("errorDetailsPopup");
     }
-    
+
     @Override
     public HasText title() {
         return title;

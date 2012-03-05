@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,14 +27,14 @@ public class Tag {
     public ID valueID;
     public String key = "";
     public String value = "";
-    
+
     private static Comparator<Tag> keyComparator = new Comparator<Tag>() {
         @Override
         public int compare(Tag t1, Tag t2) {
             return t1.keyID.compareTo(t2.keyID);
         }
     };
-    
+
     private static Comparator<Tag> keyValueComparator = new Comparator<Tag>() {
         @Override
         public int compare(Tag t1, Tag t2) {
@@ -45,17 +45,17 @@ public class Tag {
             return keyCmp;
         }
     };
-    
-   private static class TagsArrayComparator implements Comparator<TagsArray> {
-        
+
+    private static class TagsArrayComparator implements Comparator<TagsArray> {
+
         private int[] map = new int[0];
-        
+
         private void ensureMapLength(int length) {
             if (length > map.length) {
                 map = new int[length];
             }
         }
-        
+
         @Override
         public int compare(TagsArray tlist1, TagsArray tlist2) {
             // first set mapping between the two lists
@@ -75,8 +75,8 @@ public class Tag {
                     // skip this tag, as it doesn't exist in the other list
                     continue;
                 }
-                int tagCmp = shortList.getOrdered(i).valueID.compareTo(
-                        longList.get(map[i]).valueID);
+                int tagCmp = shortList.getOrdered(i).valueID.compareTo(longList
+                        .get(map[i]).valueID);
                 if (tagCmp != 0) {
                     return tagCmp;
                 }
@@ -87,51 +87,51 @@ public class Tag {
 
     private void loadStringFields(IDMap idMap) {
         try {
-            key = this.keyID.isNull() ?
-                    "NULL" : idMap.getTag(this.keyID);
-            value = this.valueID.isNull() ?
-                    "NULL" : idMap.getTagValue(this.valueID);
+            key = this.keyID.isNull() ? "NULL" : idMap.getTag(this.keyID);
+            value = this.valueID.isNull() ? "NULL" : idMap
+                    .getTagValue(this.valueID);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public Tag(byte[] rawKeyID, byte[] rawValueID, IDMap idMap) {
         this.keyID = new ID(rawKeyID);
         this.valueID = new ID(rawValueID);
         loadStringFields(idMap);
     }
-    
+
     public Tag(ID keyID, ID valueID, IDMap idMap) {
         this.keyID = keyID;
         this.valueID = valueID;
         loadStringFields(idMap);
     }
-    
+
     public Tag(String key, String value, IDMap idMap) throws IOException,
-    IDNotFoundException {
+            IDNotFoundException {
         this.key = key;
         this.value = value;
         this.keyID = idMap.getTagID(key);
         this.valueID = idMap.getTagValueID(value);
     }
-    
-    public Tag(String tagName, IDMap idMap) throws IOException, IDNotFoundException {
+
+    public Tag(String tagName, IDMap idMap) throws IOException,
+            IDNotFoundException {
         this.key = tagName;
         this.keyID = idMap.getTagID(tagName);
     }
-    
+
     public static Comparator<TagsArray> arrayComparator() {
         // we need to create a separate instance because the comparator is
         // not thread safe, as it needs the temporary storage array
         return new TagsArrayComparator();
     }
-    
+
+    @Override
     public String toString() {
-        return "(" + key + "[" + keyID + "]:"
-                + value + "[" + valueID + "])";
+        return "(" + key + "[" + keyID + "]:" + value + "[" + valueID + "])";
     }
-    
+
     public static String join(String glue, Tag[] tags) {
         String ret = "";
         for (int i = 0; i < tags.length; i++) {
@@ -142,15 +142,15 @@ public class Tag {
         }
         return ret;
     }
-    
+
     public String toHexString() {
         return keyID.toHexString() + valueID.toHexString();
     }
-    
+
     public static Comparator<Tag> keyComparator() {
         return keyComparator;
     }
-    
+
     public static Comparator<Tag> keyValueComparator() {
         return keyValueComparator;
     }

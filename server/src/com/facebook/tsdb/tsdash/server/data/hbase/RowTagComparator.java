@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,14 +22,15 @@ import org.apache.hadoop.hbase.filter.WritableByteArrayComparable;
 import com.facebook.tsdb.tsdash.server.model.ID;
 
 public class RowTagComparator extends WritableByteArrayComparable {
-    
-    private HashSet<byte[]> rawTags;
-    private byte[] rawTag = new byte[2 * ID.BYTES];
-    
+
+    private final HashSet<byte[]> rawTags;
+    private final byte[] rawTag = new byte[2 * ID.BYTES];
+
     public RowTagComparator(HashSet<byte[]> rawTags) {
         this.rawTags = rawTags;
     }
-    
+
+    @Override
     public int compareTo(byte[] value) {
         int prefixLen = RowRange.prefixBytes();
         int tagsNo = (value.length - prefixLen) / (2 * ID.BYTES);

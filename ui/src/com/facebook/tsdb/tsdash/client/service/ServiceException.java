@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,13 +18,13 @@ package com.facebook.tsdb.tsdash.client.service;
 public class ServiceException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    private String serverStackTrace;
-    
+    private final String serverStackTrace;
+
     public ServiceException(String title, String serverStackTrace) {
         super(title);
         this.serverStackTrace = serverStackTrace;
     }
-    
+
     public String getServerStackTrace() {
         return serverStackTrace;
     }

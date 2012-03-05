@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,15 +31,15 @@ public abstract class Plot {
 
     protected HandlerManager eventBus;
     protected HasWidgets container;
-    
+
     private Widget current = null;
     private Widget newPlot = null;
-    
+
     public Plot(HandlerManager eventBus, HasWidgets container) {
         this.eventBus = eventBus;
         this.container = container;
     }
-    
+
     protected void startRender(Widget plot) {
         if (newPlot != null && !newPlot.isVisible()) {
             // this is when the new plot has not been loaded successfully and
@@ -49,7 +49,7 @@ public abstract class Plot {
         newPlot = plot;
         container.add(plot);
     }
-    
+
     protected void endRender(Widget plot) {
         if (plot != newPlot) {
             return;
@@ -73,6 +73,5 @@ public abstract class Plot {
 
     public abstract void loadAndRender(TimeRange timeRange,
             ArrayList<Metric> metrics, HTTPService service,
-            AsyncCallback<ArrayList<MetricHeader>> callback,
-            Command onRender);
+            AsyncCallback<ArrayList<MetricHeader>> callback, Command onRender);
 }

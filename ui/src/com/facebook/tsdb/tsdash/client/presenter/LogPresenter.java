@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,25 +27,26 @@ import com.google.gwt.user.client.ui.Widget;
 public class LogPresenter implements Presenter {
 
     private static final int LIMIT = 20;
-    
+
     public interface LogWidget {
         HasWidgets container();
     }
-    
+
     public interface LogEntryWidget {
     }
-    
-    private HandlerManager eventBus;
-    private LogWidget widget;
 
-    private ArrayList<LogEntryWidget> entries = new ArrayList<LogEntryWidget>();
-    
+    private final HandlerManager eventBus;
+    private final LogWidget widget;
+
+    private final ArrayList<LogEntryWidget> entries =
+        new ArrayList<LogEntryWidget>();
+
     public LogPresenter(HandlerManager eventBus, LogWidget widget) {
         this.eventBus = eventBus;
         this.widget = widget;
         listenLogEvents();
     }
-    
+
     private void listenLogEvents() {
         eventBus.addHandler(LogEvent.TYPE, new LogEventHandler() {
             @Override
@@ -54,19 +55,20 @@ public class LogPresenter implements Presenter {
                     widget.container().remove((Widget) entries.get(0));
                     entries.remove(0);
                 }
-                LogEntryWidget logEntryWidget = 
-                   new com.facebook.tsdb.tsdash.client.ui.LogEntryWidget(
+                LogEntryWidget logEntryWidget =
+                    new com.facebook.tsdb.tsdash.client.ui.LogEntryWidget(
                         event.getTitle(), event.getMessage());
                 widget.container().add((Widget) logEntryWidget);
                 entries.add(logEntryWidget);
             }
         });
     }
-    
-	@Override
-	public void go(final HasWidgets container, final ApplicationState appState){
-	    container.clear();
-	    container.add((Widget) widget);
-	}
+
+    @Override
+    public void go(final HasWidgets container,
+            final ApplicationState appState) {
+        container.clear();
+        container.add((Widget) widget);
+    }
 
 }

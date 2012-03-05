@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,41 +31,41 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TagWidget extends Composite implements MetricPresenter.TagWidget {
 
-	private static TagWidgetUiBinder uiBinder = GWT
-			.create(TagWidgetUiBinder.class);
+    private static TagWidgetUiBinder uiBinder = GWT
+            .create(TagWidgetUiBinder.class);
 
-	interface TagWidgetUiBinder extends UiBinder<Widget, TagWidget> {
-	}
-	
-	@UiField
-	Panel container;
-	
-	@UiField
-	Label name;
-	
-	@UiField
-	Label value;
-	
-	@UiField
-	Label removeValue;
-	
-	@UiField
-	ListBox options;
-	
-	@UiField
-	Anchor apply;
-	
-	public TagWidget(String tagName, String tagValue) {
-	    initWidget(uiBinder.createAndBindUi(this));
-	    name.setText(tagName);
-	    value.setText("=" + tagValue);
+    interface TagWidgetUiBinder extends UiBinder<Widget, TagWidget> {
+    }
+
+    @UiField
+    Panel container;
+
+    @UiField
+    Label name;
+
+    @UiField
+    Label value;
+
+    @UiField
+    Label removeValue;
+
+    @UiField
+    ListBox options;
+
+    @UiField
+    Anchor apply;
+
+    public TagWidget(String tagName, String tagValue) {
+        initWidget(uiBinder.createAndBindUi(this));
+        name.setText(tagName);
+        value.setText("=" + tagValue);
         // add the only option even if we hide the list box
         // this way we can still access getSelectedValue()
         options.addItem(tagValue, tagValue);
         optionsVisible(false);
-	}
-	
-	public TagWidget(String tagName, ArrayList<String> options) {
+    }
+
+    public TagWidget(String tagName, ArrayList<String> options) {
         initWidget(uiBinder.createAndBindUi(this));
         name.setText(tagName);
         removeValue.setVisible(false);
@@ -84,12 +84,12 @@ public class TagWidget extends Composite implements MetricPresenter.TagWidget {
             value.setText("(" + options.size() + ")");
             value.setTitle(options.size() + " values for this tag");
         }
-	}
-	
-	@Override
-	public HasClickHandlers deleteButton() {
-		return null;
-	}
+    }
+
+    @Override
+    public HasClickHandlers deleteButton() {
+        return null;
+    }
 
     @Override
     public HasClickHandlers setValueButton() {

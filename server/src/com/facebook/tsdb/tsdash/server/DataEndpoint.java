@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,9 +36,10 @@ public class DataEndpoint extends TsdbServlet {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     @SuppressWarnings("unchecked")
-    public void doGet(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
@@ -57,10 +58,10 @@ public class DataEndpoint extends TsdbServlet {
             }
             MetricQuery[] metricQueries = new MetricQuery[metricsArray.size()];
             for (int i = 0; i < metricsArray.size(); i++) {
-                metricQueries[i] = MetricQuery.fromJSONObject(
-                        (JSONObject) metricsArray.get(i));
+                metricQueries[i] = MetricQuery
+                        .fromJSONObject((JSONObject) metricsArray.get(i));
             }
-            
+
             TsdbDataProvider dataProvider = TsdbDataProviderFactory.get();
             Metric[] metrics = new Metric[metricQueries.length];
             for (int i = 0; i < metrics.length; i++) {
@@ -83,12 +84,12 @@ public class DataEndpoint extends TsdbServlet {
             out.println(responseObj.toJSONString());
             long encodingTime = System.currentTimeMillis() - ts - loadTime;
             logger.info("[Data] time frame: " + (tsTo - tsFrom) + "s, "
-                    + "load time: " + loadTime + "ms, "
-                    + "encoding time: " + encodingTime + "ms");
+                    + "load time: " + loadTime + "ms, " + "encoding time: "
+                    + encodingTime + "ms");
         } catch (Exception e) {
             out.println(getErrorResponse(e));
         }
         out.close();
     }
-    
+
 }

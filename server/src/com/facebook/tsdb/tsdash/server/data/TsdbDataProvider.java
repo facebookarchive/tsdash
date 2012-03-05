@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,14 +20,21 @@ import java.util.Map;
 import com.facebook.tsdb.tsdash.server.model.Metric;
 
 public interface TsdbDataProvider {
-    Metric fetchMetric(String metric, long startTs, long toTs, 
+    Metric fetchMetric(String metric, long startTs, long toTs,
             Map<String, String> tags, String[] orders) throws Exception;
-    Metric fetchMetricHeader(String metric, long startTs, long toTs, 
+
+    Metric fetchMetricHeader(String metric, long startTs, long toTs,
             Map<String, String> tags) throws Exception;
+
     String[] getMetrics() throws Exception;
+
     String[] getTags(String metric) throws Exception;
+
     String[] getTagValues(String tag) throws Exception;
+
     byte[] getMetricID(String metric) throws Exception;
+
     byte[] getTagID(String tag) throws Exception;
+
     byte[] getTagValueID(String tagValue) throws Exception;
 }

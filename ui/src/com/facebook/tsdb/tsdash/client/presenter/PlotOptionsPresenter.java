@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,35 +25,48 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class PlotOptionsPresenter implements Presenter {
-    
+
     public interface Widget {
         HasClickHandlers interactiveMode();
+
         HasClickHandlers imageMode();
+
         void selectedMode(Object button);
+
         Object selectedMode();
+
         void imageOptionsVisible(boolean visible);
+
         HasClickHandlers lineChartButton();
+
         HasClickHandlers surfaceButton();
+
         HasValue<Boolean> lineChart();
+
         HasValue<Boolean> surface();
+
         void setImageTypeSelected(Object selected);
+
         void setSurfaceOptionsVisible(boolean visible);
+
         HasClickHandlers colorButton();
+
         boolean colorPaletteSelected();
+
         void colorPaletteSelected(boolean selected);
     }
-    
-    private HandlerManager eventBus;
-    private Widget widget;
-    
+
+    private final HandlerManager eventBus;
+    private final Widget widget;
+
     public PlotOptionsPresenter(HandlerManager eventBus, Widget widget) {
         this.eventBus = eventBus;
         this.widget = widget;
         bindWidget();
     }
-    
+
     private void bindWidget() {
-        // MODE 
+        // MODE
         ClickHandler modeHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -61,12 +74,11 @@ public class PlotOptionsPresenter implements Presenter {
                     return;
                 }
                 widget.selectedMode(event.getSource());
-                boolean interactive =
-                        widget.selectedMode() == widget.interactiveMode();
+                boolean interactive = widget.selectedMode() == widget
+                        .interactiveMode();
                 widget.imageOptionsVisible(!interactive);
-                eventBus.fireEvent(new PlotOptionsEvent(interactive,
-                        widget.surface().getValue(), 
-                        widget.colorPaletteSelected()));
+                eventBus.fireEvent(new PlotOptionsEvent(interactive, widget
+                        .surface().getValue(), widget.colorPaletteSelected()));
             }
         };
         widget.imageMode().addClickHandler(modeHandler);
@@ -79,8 +91,8 @@ public class PlotOptionsPresenter implements Presenter {
                 widget.setSurfaceOptionsVisible(surface);
                 eventBus.fireEvent(new PlotOptionsEvent(
                         widget.selectedMode() == widget.interactiveMode(),
-                        widget.surface().getValue(),
-                        widget.colorPaletteSelected()));
+                        widget.surface().getValue(), widget
+                                .colorPaletteSelected()));
             }
         };
         widget.lineChartButton().addClickHandler(imageTypeHandler);
@@ -90,12 +102,12 @@ public class PlotOptionsPresenter implements Presenter {
             public void onClick(ClickEvent event) {
                 eventBus.fireEvent(new PlotOptionsEvent(
                         widget.selectedMode() == widget.interactiveMode(),
-                        widget.surface().getValue(),
-                        widget.colorPaletteSelected()));
+                        widget.surface().getValue(), widget
+                                .colorPaletteSelected()));
             }
         });
     }
-    
+
     @Override
     public void go(HasWidgets container, ApplicationState appState) {
         container.add((com.google.gwt.user.client.ui.Widget) widget);

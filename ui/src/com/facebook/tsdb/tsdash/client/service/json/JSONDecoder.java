@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,8 +20,9 @@ import com.facebook.tsdb.tsdash.client.service.ServiceException;
 public abstract class JSONDecoder<T> {
 
     abstract T decode(String jsonText);
+
     private static ErrorDecoder errorDecoder = new ErrorDecoder();
-    
+
     public T tryDecode(String jsonText) throws JSONParseException {
         try {
             return decode(jsonText);
@@ -29,9 +30,9 @@ public abstract class JSONDecoder<T> {
             throw new JSONParseException(jsonText);
         }
     }
-    
+
     public T tryDecodeFromService(String jsonText) throws JSONParseException,
-    ServiceException {
+            ServiceException {
         try {
             return decode(jsonText);
         } catch (Exception e) {

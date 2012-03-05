@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -38,54 +38,55 @@ import com.google.common.primitives.UnsignedBytes;
 
 public class Metric {
 
-    protected static Logger logger =
-            Logger.getLogger("com.facebook.tsdb.services");
-    
+    protected static Logger logger = Logger
+            .getLogger("com.facebook.tsdb.services");
+
     private static final int GUESS_MATCH_THOLD = 5; // no. of matches
     private static final long DATA_MISSING_THOLD = 3 * 60; // 3 minutes
-    
+
     public static Aggregator.Type DEFAULT_AGGREGATOR = Aggregator.Type.SUM;
-    
-    private IDMap idMap;
-    private static HashMap<Aggregator.Type, Aggregator> aggregators = 
-            new HashMap<Aggregator.Type, Aggregator>();
-    
+
+    private final IDMap idMap;
+    private static HashMap<Aggregator.Type, Aggregator> aggregators =
+        new HashMap<Aggregator.Type, Aggregator>();
+
     static {
         loadAggregators();
     }
-    
+
     private static void loadAggregators() {
         aggregators.put(Aggregator.Type.SUM, new SumAggregator());
         aggregators.put(Aggregator.Type.MIN, new MinAggregator());
         aggregators.put(Aggregator.Type.MAX, new MaxAggregator());
         aggregators.put(Aggregator.Type.AVG, new AverageAggregator());
     }
-    
-    private byte[] id;
-    private String name;
-    public TreeMap<TagsArray, ArrayList<DataPoint>> timeSeries = 
-            new TreeMap<TagsArray, ArrayList<DataPoint>>(Tag.arrayComparator());
-    private HashSet<String> dissolvedTags = new HashSet<String>();
+
+    private final byte[] id;
+    private final String name;
+    public TreeMap<TagsArray, ArrayList<DataPoint>> timeSeries =
+        new TreeMap<TagsArray, ArrayList<DataPoint>>(
+            Tag.arrayComparator());
+    private final HashSet<String> dissolvedTags = new HashSet<String>();
     private String aggregatorName = null;
-    
+
     public Metric(byte[] id, String name, IDMap idMap) {
         this.id = id;
         this.name = name;
         this.idMap = idMap;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getAggregator() {
         return aggregatorName;
     }
-    
+
     public boolean isAggregated() {
         return aggregatorName != null;
     }
-    
+
     public boolean hasData() {
         for (ArrayList<DataPoint> dataPoints : timeSeries.values()) {
             if (dataPoints.size() > 0) {
@@ -94,14 +95,14 @@ public class Metric {
         }
         return false;
     }
-    
+
     public ArrayList<DataPoint> getDataPoints(TagsArray tagsArray) {
         if (!timeSeries.containsKey(tagsArray)) {
             timeSeries.put(tagsArray, new ArrayList<DataPoint>());
         }
         return timeSeries.get(tagsArray);
     }
-    
+
     private static boolean arrayIsSorted(ArrayList<DataPoint> array) {
         for (int i = 0; i < array.size() - 1; i++) {
             if (array.get(i).compareTo(array.get(i + 1)) > 0) {
@@ -110,10 +111,10 @@ public class Metric {
         }
         return true;
     }
-    
+
     public HashMap<String, HashSet<String>> getTagsSet() {
-        HashMap<String, HashSet<String>> tagsSet = 
-                new HashMap<String, HashSet<String>>();
+        HashMap<String, HashSet<String>> tagsSet =
+            new HashMap<String, HashSet<String>>();
         for (TagsArray rowTags : timeSeries.keySet()) {
             for (Tag tag : rowTags.asArray()) {
                 if (!tagsSet.containsKey(tag.key)) {
@@ -148,11 +149,11 @@ public class Metric {
         }
         return commonTags;
     }
-    
+
     /**
-     * the input time series are ordered by time stamp and they have no 
+     * the input time series are ordered by time stamp and they have no
      * duplicates
-     * 
+     *
      * @param ts1
      * @param ts2
      * @return the merged time series
@@ -195,16 +196,16 @@ public class Metric {
         }
         return merged;
     }
-    
+
     private Aggregator getAggregator(String aggregatorName) {
-        Aggregator agg = aggregators.get(
-                Aggregator.Type.valueOf(aggregatorName.toUpperCase()));
+        Aggregator agg = aggregators.get(Aggregator.Type.valueOf(aggregatorName
+                .toUpperCase()));
         if (agg == null) {
             return aggregators.get(DEFAULT_AGGREGATOR);
         }
         return agg;
     }
-    
+
     public long guessTimeCycle() {
         long cycle = Integer.MAX_VALUE;
         int matches = 0;
@@ -223,11 +224,11 @@ public class Metric {
         }
         return cycle;
     }
-    
+
     public void addTrailingNulls() {
-        
+
     }
-    
+
     public void alignAllTimeSeries() {
         long cycle = guessTimeCycle();
         // wrap the time stamps to a multiple of cycle
@@ -238,7 +239,8 @@ public class Metric {
         }
         // do the actual aligning
         TreeMap<TagsArray, ArrayList<DataPoint>> aligned =
-            new TreeMap<TagsArray, ArrayList<DataPoint>>(Tag.arrayComparator());
+            new TreeMap<TagsArray, ArrayList<DataPoint>>(
+                Tag.arrayComparator());
         for (TagsArray header : timeSeries.keySet()) {
             aligned.put(header, TimeSeries.align(timeSeries.get(header),
                     cycle));
@@ -267,9 +269,9 @@ public class Metric {
         if (maxmax - minmax > DATA_MISSING_THOLD) {
             // we've just detected missing data from this set of time series
             logger.error("Missing data detected");
-            
+
             // add padding to maxmax
-            for (ArrayList<DataPoint> points :  aligned.values()) {
+            for (ArrayList<DataPoint> points : aligned.values()) {
                 if (points.size() == 0) {
                     continue;
                 }
@@ -281,8 +283,8 @@ public class Metric {
         } else {
             // cut off the tail
             for (ArrayList<DataPoint> points : aligned.values()) {
-                while (points.size() > 0 &&
-                        points.get(points.size() - 1).ts > minmax) {
+                while (points.size() > 0
+                        && points.get(points.size() - 1).ts > minmax) {
                     points.remove(points.size() - 1);
                 }
             }
@@ -300,15 +302,17 @@ public class Metric {
      * create a new metric with rows aggregated after dissolving the given tags.
      * The resulted metric will not be able to accept filters on this tag
      * anymore.
-     * 
+     *
      * @param tagName
-     * @param aggregatorName 'sum', 'max', 'min' or 'avg'
+     * @param aggregatorName
+     *            'sum', 'max', 'min' or 'avg'
      * @return a new Metric object that contains the aggregated rows
-     * @throws IDNotFoundException 
-     * @throws IOException 
+     * @throws IDNotFoundException
+     * @throws IOException
      */
     public Metric dissolveTags(ArrayList<String> tagsName,
-            String aggregatorName) throws IOException, IDNotFoundException {
+            String aggregatorName)
+            throws IOException, IDNotFoundException {
         if (tagsName.size() == 0) {
             return this;
         }
@@ -329,7 +333,7 @@ public class Metric {
         }
         // this aligns the time series in a perfect grid
         alignAllTimeSeries();
-        
+
         Metric newData = new Metric(id, name, idMap);
         Tag[] toDissolve = new Tag[tagsName.size()];
         for (int i = 0; i < toDissolve.length; i++) {
@@ -337,8 +341,8 @@ public class Metric {
             newData.dissolvedTags.add(tagsName.get(i));
         }
         TreeMap<TagsArray, ArrayList<ArrayList<DataPoint>>> dissolved =
-                new TreeMap<TagsArray, ArrayList<ArrayList<DataPoint>>>(
-                        Tag.arrayComparator());
+            new TreeMap<TagsArray, ArrayList<ArrayList<DataPoint>>>(
+                Tag.arrayComparator());
         // sort the tags we will dissolve for calling disableTags()
         Arrays.sort(toDissolve, Tag.keyComparator());
         for (TagsArray header : timeSeries.keySet()) {
@@ -357,8 +361,8 @@ public class Metric {
         Aggregator aggregator = getAggregator(aggregatorName);
         newData.aggregatorName = aggregatorName;
         for (TagsArray header : dissolved.keySet()) {
-            newData.timeSeries.put(header, TimeSeries.aggregate(
-                    dissolved.get(header), aggregator));
+            newData.timeSeries.put(header,
+                    TimeSeries.aggregate(dissolved.get(header), aggregator));
         }
         return newData;
     }
@@ -393,35 +397,31 @@ public class Metric {
         topObj.put("name", name);
         HashMap<String, HashSet<String>> tagsSet = getTagsSet();
         topObj.put("tags", encodeTagsSet(tagsSet));
-        topObj.put("commontags", encodeCommonTags(
-                getCommonTags(tagsSet.keySet())));
+        topObj.put("commontags",
+                encodeCommonTags(getCommonTags(tagsSet.keySet())));
         return topObj;
     }
-    
+
     public String toJSONString() {
         return toJSONObject().toJSONString();
     }
-    
+
+    @Override
     public String toString() {
         String ret = "Metric " + UnsignedBytes.join("", id) + '\n';
         for (TagsArray tagsArray : timeSeries.keySet()) {
             ret += Tag.join(" ", tagsArray.asArray()) + "\n";
-            ret += "datapoints sorted: " 
+            ret += "datapoints sorted: "
                     + arrayIsSorted(timeSeries.get(tagsArray));
             ret += "\n";
             /*
-            int count = 0;
-            for (DataPoint dataPoint : timeSeries.get(tagsArray)) {
-                ret += " " + dataPoint;
-                if (count == 100) {
-                    break;
-                }
-                count++;
-            }
-            */
+             * int count = 0; for (DataPoint dataPoint :
+             * timeSeries.get(tagsArray)) { ret += " " + dataPoint; if (count ==
+             * 100) { break; } count++; }
+             */
             ret += "\n";
         }
         return ret;
     }
-    
+
 }

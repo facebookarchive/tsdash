@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,9 +21,9 @@ import com.facebook.tsdb.tsdash.server.data.agg.Aggregator;
 import com.facebook.tsdb.tsdash.server.data.agg.AverageAggregator;
 
 public class TimeSeries {
-    
+
     private static DataPoint marker = new DataPoint(0, Double.MAX_VALUE);
-    
+
     public static boolean isAligned(ArrayList<DataPoint> points, long cycle) {
         for (int i = 0; i < points.size() - 1; i++) {
             if (points.get(i + 1).ts - points.get(i).ts != cycle) {
@@ -32,7 +32,7 @@ public class TimeSeries {
         }
         return true;
     }
-    
+
     public static ArrayList<DataPoint> averageDuplicates(
             ArrayList<DataPoint> points) {
         ArrayList<DataPoint> unique = new ArrayList<DataPoint>();
@@ -49,14 +49,14 @@ public class TimeSeries {
             } // else it will continue to add to the aggregator
             i++;
         }
-        return unique;        
+        return unique;
     }
-    
+
     private static double linearEq(double x, double x1, double y1, double x2,
             double y2) {
         return (x - x1) * (y2 - y1) / (x2 - x1) + y1;
     }
-    
+
     private static ArrayList<DataPoint> linearConnect(DataPoint x1,
             DataPoint x2, long cycle) {
         ArrayList<DataPoint> conn = new ArrayList<DataPoint>();
@@ -66,24 +66,24 @@ public class TimeSeries {
         }
         return conn;
     }
-    
+
     public static ArrayList<DataPoint> lerp(ArrayList<DataPoint> points,
             long cycle) {
         ArrayList<DataPoint> continous = new ArrayList<DataPoint>();
         for (int i = 0; i < points.size() - 1; i++) {
             continous.add(points.get(i));
             if (points.get(i + 1).ts - points.get(i).ts != cycle) {
-                continous.addAll(linearConnect(points.get(i), points.get(i + 1),
-                        cycle));
+                continous.addAll(linearConnect(points.get(i),
+                        points.get(i + 1), cycle));
             }
         }
         return continous;
     }
-    
+
     /**
-     * there are two sources of problems: multiple points on the same ts or 
+     * there are two sources of problems: multiple points on the same ts or
      * missing points for certain ts
-     * 
+     *
      * @param points
      * @param cycle
      * @return
@@ -95,7 +95,7 @@ public class TimeSeries {
         }
         return lerp(averageDuplicates(points), cycle);
     }
-    
+
     public static ArrayList<DataPoint> aggregate(
             ArrayList<ArrayList<DataPoint>> grouped, Aggregator agg) {
         ArrayList<DataPoint> aggregated = new ArrayList<DataPoint>();

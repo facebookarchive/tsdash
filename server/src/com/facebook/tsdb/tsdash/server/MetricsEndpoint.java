@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,9 +31,10 @@ public class MetricsEndpoint extends TsdbServlet {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     @SuppressWarnings("unchecked")
-    public void doGet(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         PrintWriter out = response.getWriter();
         try {
             TsdbDataProvider dataProvider = TsdbDataProviderFactory.get();
@@ -48,5 +49,5 @@ public class MetricsEndpoint extends TsdbServlet {
             out.println(getErrorResponse(e));
         }
         out.close();
-    }    
+    }
 }

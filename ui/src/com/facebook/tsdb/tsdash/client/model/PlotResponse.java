@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,11 +23,11 @@ public class PlotResponse {
     public long serverLoadTime = 0;
     public ArrayList<MetricHeader> metrics = new ArrayList<MetricHeader>();
     public String plotURL;
-    
+
+    @Override
     public String toString() {
-        return "Data: " + dataSize + " bytes; "
-                + "Load time: " + serverLoadTime + " ms; "
-                + "Plot URL: " + plotURL + " "
-                + "Metrics loaded: " + metrics.size();        
+        return "Data: " + dataSize + " bytes; " + "Load time: "
+                + serverLoadTime + " ms; " + "Plot URL: " + plotURL + " "
+                + "Metrics loaded: " + metrics.size();
     }
 }

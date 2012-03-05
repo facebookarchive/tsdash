@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,13 +22,13 @@ import com.google.common.collect.ImmutableBiMap;
 
 public class IDMap {
 
-    private IDMapSyncLoader syncMetricsLoader = new IDMapSyncLoader(
+    private final IDMapSyncLoader syncMetricsLoader = new IDMapSyncLoader(
             HBaseDataProvider.METRIC_QUALIFIER.getBytes());
-    private IDMapSyncLoader syncTagsLoader = new IDMapSyncLoader(
+    private final IDMapSyncLoader syncTagsLoader = new IDMapSyncLoader(
             HBaseDataProvider.TAG_QUALIFIER.getBytes());
-    private IDMapSyncLoader syncTagValuesLoader = new IDMapSyncLoader(
+    private final IDMapSyncLoader syncTagValuesLoader = new IDMapSyncLoader(
             HBaseDataProvider.TAG_VALUE_QUALIFIER.getBytes());
-    
+
     private static String getEqual(ImmutableBiMap<String, ID> map, ID id) {
         for (ID valueID : map.inverse().keySet()) {
             if (valueID.compareTo(id) == 0) {
@@ -37,16 +37,16 @@ public class IDMap {
         }
         return null;
     }
-    
+
     // metrics
-    
+
     public String[] getMetrics() throws IOException {
         ImmutableBiMap<String, ID> metricsMap = syncMetricsLoader.get();
         return metricsMap.keySet().toArray(new String[0]);
     }
-    
-    public ID getMetricID(String metric) throws IOException, 
-    IDNotFoundException {
+
+    public ID getMetricID(String metric) throws IOException,
+            IDNotFoundException {
         ImmutableBiMap<String, ID> metricsMap = syncMetricsLoader.get();
         ID metricID = metricsMap.get(metric);
         if (metricID == null) {
@@ -54,9 +54,9 @@ public class IDMap {
         }
         return metricID;
     }
-    
+
     public String getMetric(ID metricID) throws IOException,
-    IDNotFoundException {
+            IDNotFoundException {
         ImmutableBiMap<String, ID> metricsMap = syncMetricsLoader.get();
         String metric = getEqual(metricsMap, metricID);
         if (metric == null) {
@@ -65,16 +65,15 @@ public class IDMap {
         }
         return metric;
     }
-    
+
     // tags
-    
+
     public String[] getTags() throws IOException {
         ImmutableBiMap<String, ID> tagsMap = syncTagsLoader.get();
         return tagsMap.keySet().toArray(new String[0]);
     }
-    
-    public ID getTagID(String tag) throws IOException,
-    IDNotFoundException {
+
+    public ID getTagID(String tag) throws IOException, IDNotFoundException {
         ImmutableBiMap<String, ID> tagsMap = syncTagsLoader.get();
         ID tagID = tagsMap.get(tag);
         if (tagID == null) {
@@ -82,9 +81,8 @@ public class IDMap {
         }
         return tagID;
     }
-    
-    public String getTag(ID tagID) throws IOException,
-    IDNotFoundException {
+
+    public String getTag(ID tagID) throws IOException, IDNotFoundException {
         ImmutableBiMap<String, ID> tagsMap = syncTagsLoader.get();
         String tag = getEqual(tagsMap, tagID);
         if (tag == null) {
@@ -92,31 +90,31 @@ public class IDMap {
         }
         return tag;
     }
-    
+
     // tag values
-    
+
     public String[] getTagValues() throws IOException {
         ImmutableBiMap<String, ID> tagValuesMap = syncTagValuesLoader.get();
         return tagValuesMap.keySet().toArray(new String[0]);
     }
-    
+
     public ID getTagValueID(String tagValue) throws IOException,
-    IDNotFoundException {
+            IDNotFoundException {
         ImmutableBiMap<String, ID> tagValuesMap = syncTagValuesLoader.get();
         ID tagValueID = tagValuesMap.get(tagValue);
         if (tagValueID == null) {
-            throw new IDNotFoundException("tag value '" + tagValue 
+            throw new IDNotFoundException("tag value '" + tagValue
                     + "' not found");
         }
         return tagValueID;
     }
-    
+
     public String getTagValue(ID valueID) throws IOException,
-    IDNotFoundException {
+            IDNotFoundException {
         ImmutableBiMap<String, ID> tagValuesMap = syncTagValuesLoader.get();
         String tagValue = getEqual(tagValuesMap, valueID);
         if (tagValue == null) {
-            throw new IDNotFoundException("tag value id '" + valueID 
+            throw new IDNotFoundException("tag value id '" + valueID
                     + "' not found");
         }
         return tagValue;

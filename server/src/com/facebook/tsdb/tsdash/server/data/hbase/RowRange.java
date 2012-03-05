@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,14 +23,14 @@ import com.google.common.primitives.UnsignedBytes;
 public class RowRange {
 
     public static final int PREFIX_TS_ROUND = 60 * 60; // 1h, in seconds
-    
-    private byte[] start = new byte[ID.BYTES + RowKey.PREFIX_TS_BYTES];
-    private byte[] stop = new byte[ID.BYTES + RowKey.PREFIX_TS_BYTES];  
-    private byte[] last = new byte[ID.BYTES + RowKey.PREFIX_TS_BYTES];
-    
-    private long startOffset;
-    private long lastOffset; 
-    
+
+    private final byte[] start = new byte[ID.BYTES + RowKey.PREFIX_TS_BYTES];
+    private final byte[] stop = new byte[ID.BYTES + RowKey.PREFIX_TS_BYTES];
+    private final byte[] last = new byte[ID.BYTES + RowKey.PREFIX_TS_BYTES];
+
+    private final long startOffset;
+    private final long lastOffset;
+
     public RowRange(byte[] metricID, long fromTs, long toTs) {
         Arrays.fill(start, (byte) 0);
         Arrays.fill(stop, (byte) 0);
@@ -50,13 +50,13 @@ public class RowRange {
             shift += 8;
         }
         startOffset = fromTs % PREFIX_TS_ROUND;
-        lastOffset = toTs % PREFIX_TS_ROUND ;
+        lastOffset = toTs % PREFIX_TS_ROUND;
     }
 
     public byte[] getStart() {
         return start;
     }
-    
+
     public byte[] getStop() {
         return stop;
     }
@@ -64,34 +64,37 @@ public class RowRange {
     public byte[] getLast() {
         return last;
     }
-    
+
     public long getStartOffset() {
         return startOffset;
     }
-    
+
     public long getLastOffset() {
         return lastOffset;
     }
-    
+
     public static long roundTs(long ts) {
         return ts - (ts % PREFIX_TS_ROUND);
     }
-    
+
+    @Override
     public String toString() {
         String res = "";
-        res += UnsignedBytes.join(" ", start) + 
-                " offset: " + UnsignedBytes.join(" ", 
+        res += UnsignedBytes.join(" ", start)
+                + " offset: "
+                + UnsignedBytes.join(" ",
                         DataPointQualifier.packedOffset(startOffset)) + '\n';
-        res += UnsignedBytes.join(" ", last) + 
-                " offset: " + UnsignedBytes.join(" ",
+        res += UnsignedBytes.join(" ", last)
+                + " offset: "
+                + UnsignedBytes.join(" ",
                         DataPointQualifier.packedOffset(lastOffset)) + '\n';
         res += startOffset + " " + lastOffset + '\n';
         res += UnsignedBytes.join(" ", stop) + '\n';
         return res;
     }
-    
+
     public static int prefixBytes() {
         return ID.BYTES + RowKey.PREFIX_TS_BYTES;
     }
-    
+
 }

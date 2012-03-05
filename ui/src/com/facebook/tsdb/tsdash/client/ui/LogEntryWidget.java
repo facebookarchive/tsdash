@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.facebook.tsdb.tsdash.client.presenter.LogPresenter;
 
-public class LogEntryWidget extends Composite implements 
+public class LogEntryWidget extends Composite implements
         LogPresenter.LogEntryWidget {
 
     private static LogEntryWidgetUiBinder uiBinder = GWT
@@ -35,14 +35,14 @@ public class LogEntryWidget extends Composite implements
 
     @UiField
     Label title;
-    
+
     @UiField
     Label message;
-    
+
     public LogEntryWidget() {
         initWidget(uiBinder.createAndBindUi(this));
     }
-    
+
     public LogEntryWidget(String title, String message) {
         initWidget(uiBinder.createAndBindUi(this));
         this.title.setText(title);

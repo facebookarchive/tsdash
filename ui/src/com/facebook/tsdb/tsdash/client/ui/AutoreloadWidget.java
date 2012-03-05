@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,112 +30,111 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+public class AutoreloadWidget extends Composite implements
+        AutoreloadPresenter.AutoreloadWidget {
 
-public class AutoreloadWidget extends Composite 
-	implements AutoreloadPresenter.AutoreloadWidget {
+    private static AutoreloadWidgetUiBinder uiBinder = GWT
+            .create(AutoreloadWidgetUiBinder.class);
 
-	private static AutoreloadWidgetUiBinder uiBinder = GWT
-			.create(AutoreloadWidgetUiBinder.class);
+    interface AutoreloadWidgetUiBinder extends
+            UiBinder<Widget, AutoreloadWidget> {
+    }
 
-	interface AutoreloadWidgetUiBinder extends
-			UiBinder<Widget, AutoreloadWidget> {
-	}
+    @UiField
+    HTML start;
 
-	@UiField
-	HTML start;
-	
-	@UiField
-	HTML stop;
-	
-	@UiField
-	HTMLPanel period;
-	
-	@UiField
-	HTMLPanel status;
-	
-	@UiField
-	Anchor seconds;
-	
-	@UiField
-	ListBox periodOption;
-	
-	@UiField
-	HTMLPanel loading;
-	
-	@UiField
-	Label loadingStatus;
-	
-	public AutoreloadWidget() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
+    @UiField
+    HTML stop;
 
-	@Override
-	public HasClickHandlers startButton() {
-		return start;
-	}
+    @UiField
+    HTMLPanel period;
 
-	@Override
-	public HasClickHandlers stopButton() {
-		return stop;
-	}
+    @UiField
+    HTMLPanel status;
 
-	@Override
-	public boolean isReloading() {
-		return stop.isVisible();
-	}
+    @UiField
+    Anchor seconds;
 
-	@Override
-	public void setStartVisible(boolean visible) {
-		start.setVisible(visible);
-	}
+    @UiField
+    ListBox periodOption;
 
-	@Override
-	public void setStopVisible(boolean visible) {
-		stop.setVisible(visible);
-	}
+    @UiField
+    HTMLPanel loading;
 
-	@Override
-	public void setPeriodVisible(boolean visible) {
-		period.setVisible(visible);
-	}
+    @UiField
+    Label loadingStatus;
 
-	@Override
-	public void setStatusVisible(boolean visible) {
-		status.setVisible(visible);
-	}
+    public AutoreloadWidget() {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
 
-	@Override
-	public void setRemainingSeconds(int seconds) {
-		this.seconds.setText("" + seconds);
-	}
+    @Override
+    public HasClickHandlers startButton() {
+        return start;
+    }
 
-	@Override
-	public void selectPeriodOption(int index) {
-		periodOption.setSelectedIndex(index);
-	}
+    @Override
+    public HasClickHandlers stopButton() {
+        return stop;
+    }
 
-	@Override
-	public int selectedPeriodOption() {
-		return periodOption.getSelectedIndex();
-	}
+    @Override
+    public boolean isReloading() {
+        return stop.isVisible();
+    }
 
-	@Override
-	public void setPeriodOptions(int[] periodOptions) {
-		periodOption.clear();
-		for (int period : periodOptions) {
-			this.periodOption.addItem("" + period);
-		}
-	}
+    @Override
+    public void setStartVisible(boolean visible) {
+        start.setVisible(visible);
+    }
 
-	@Override
-	public HasChangeHandlers period() {
-		return periodOption;
-	}
+    @Override
+    public void setStopVisible(boolean visible) {
+        stop.setVisible(visible);
+    }
 
-	@Override
-	public void setLoadingVisible(boolean visible) {
-		loading.setVisible(visible);
-	}
+    @Override
+    public void setPeriodVisible(boolean visible) {
+        period.setVisible(visible);
+    }
+
+    @Override
+    public void setStatusVisible(boolean visible) {
+        status.setVisible(visible);
+    }
+
+    @Override
+    public void setRemainingSeconds(int seconds) {
+        this.seconds.setText("" + seconds);
+    }
+
+    @Override
+    public void selectPeriodOption(int index) {
+        periodOption.setSelectedIndex(index);
+    }
+
+    @Override
+    public int selectedPeriodOption() {
+        return periodOption.getSelectedIndex();
+    }
+
+    @Override
+    public void setPeriodOptions(int[] periodOptions) {
+        periodOption.clear();
+        for (int period : periodOptions) {
+            this.periodOption.addItem("" + period);
+        }
+    }
+
+    @Override
+    public HasChangeHandlers period() {
+        return periodOption;
+    }
+
+    @Override
+    public void setLoadingVisible(boolean visible) {
+        loading.setVisible(visible);
+    }
 
     @Override
     public HasText loadingStatus() {

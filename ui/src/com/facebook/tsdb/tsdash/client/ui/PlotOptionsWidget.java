@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PlotOptionsWidget extends Composite
-        implements PlotOptionsPresenter.Widget{
+public class PlotOptionsWidget extends Composite implements
+        PlotOptionsPresenter.Widget {
 
     private static PlotOptionsWidgetUiBinder uiBinder = GWT
             .create(PlotOptionsWidgetUiBinder.class);
@@ -43,9 +43,10 @@ public class PlotOptionsWidget extends Composite
 
     interface Style extends CssResource {
         String selected();
+
         String active();
     }
-    
+
     public PlotOptionsWidget() {
         color = new ToggleButton(new Image("img/color.png"));
         initWidget(uiBinder.createAndBindUi(this));
@@ -53,30 +54,30 @@ public class PlotOptionsWidget extends Composite
 
     @UiField
     Anchor interactive;
-    
+
     @UiField
     Anchor image;
-    
+
     @UiField
     RadioButton lineChart;
-    
+
     @UiField
     RadioButton surface;
-    
+
     @UiField
     HTMLPanel imageOptions;
-    
+
     @UiField
     HTMLPanel surfaceOptions;
-    
-    @UiField (provided = true)
+
+    @UiField(provided = true)
     ToggleButton color;
-    
+
     @UiField
     Style style;
-    
+
     private Object selectedMode = null;
-    
+
     @Override
     public HasClickHandlers interactiveMode() {
         return interactive;
@@ -93,11 +94,11 @@ public class PlotOptionsWidget extends Composite
             return;
         }
         if (selectedMode != null) {
-            CssHelper.replaceClass((UIObject) selectedMode, style.selected(), 
+            CssHelper.replaceClass((UIObject) selectedMode, style.selected(),
                     style.active());
         }
         if (button != null) {
-            CssHelper.replaceClass((UIObject) button, style.active(), 
+            CssHelper.replaceClass((UIObject) button, style.active(),
                     style.selected());
         }
         selectedMode = button;

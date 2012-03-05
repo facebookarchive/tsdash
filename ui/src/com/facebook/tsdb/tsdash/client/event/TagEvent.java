@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,50 +20,50 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class TagEvent extends GwtEvent<TagEventHandler> {
 
-	public static final GwtEvent.Type<TagEventHandler> TYPE =
-			new GwtEvent.Type<TagEventHandler>();
-	
-	public enum Operation {
-		SET, REMOVE;
-	}
-	
-	private Operation op;
-	private Metric metric;
-	private String tagName;
-	private String tagValue;
-	
-	public TagEvent(Operation op, Metric metric, String tagName,
-			String tagValue) {
-		this.op = op;
-		this.metric = metric;
-		this.tagName = tagName;
-		this.tagValue = tagValue;
-	}
-	
-	public Metric getMetric() {
-		return metric;
-	}
-	
-	public String getTagName() {
-		return tagName;
-	}
-	
-	public String getTagValue() {
-		return tagValue;
-	}
-	
-	@Override
-	public GwtEvent.Type<TagEventHandler> getAssociatedType() {
-		return TYPE;
-	}
-	
-	@Override
-	protected void dispatch(TagEventHandler handler) {
-		if (op == Operation.SET) {
-			handler.onSet(this);
-		} else if (op == Operation.REMOVE) {
-			handler.onRemove(this);
-		}
-	}
+    public static final GwtEvent.Type<TagEventHandler> TYPE =
+        new GwtEvent.Type<TagEventHandler>();
+
+    public enum Operation {
+        SET, REMOVE;
+    }
+
+    private final Operation op;
+    private final Metric metric;
+    private final String tagName;
+    private final String tagValue;
+
+    public TagEvent(Operation op, Metric metric, String tagName,
+            String tagValue) {
+        this.op = op;
+        this.metric = metric;
+        this.tagName = tagName;
+        this.tagValue = tagValue;
+    }
+
+    public Metric getMetric() {
+        return metric;
+    }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public String getTagValue() {
+        return tagValue;
+    }
+
+    @Override
+    public GwtEvent.Type<TagEventHandler> getAssociatedType() {
+        return TYPE;
+    }
+
+    @Override
+    protected void dispatch(TagEventHandler handler) {
+        if (op == Operation.SET) {
+            handler.onSet(this);
+        } else if (op == Operation.REMOVE) {
+            handler.onRemove(this);
+        }
+    }
 
 }

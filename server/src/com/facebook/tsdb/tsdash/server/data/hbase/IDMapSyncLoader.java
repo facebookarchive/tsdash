@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,39 +27,38 @@ import com.google.common.collect.ImmutableBiMap;
 /**
  * Object used for loading a particular ID map from HBase in a thread-safe
  * manner. The maps are immutable, so they don't need thread-safety.
- * 
+ *
  * @author cgheorghe
  *
  */
 public class IDMapSyncLoader {
 
-    private static final byte[] ID_FAMILY = 
-            HBaseDataProvider.ID_FAMILY.getBytes();
-    
+    private static final byte[] ID_FAMILY = HBaseDataProvider.ID_FAMILY
+            .getBytes();
+
     private HTable IDsTable = null;
     private ImmutableBiMap<String, ID> map = null;
-    private byte[] qualifier;
-    
+    private final byte[] qualifier;
+
     public IDMapSyncLoader(byte[] qualifier) {
         this.qualifier = qualifier;
     }
 
-    public synchronized ImmutableBiMap<String, ID> get() 
-    throws IOException {
+    public synchronized ImmutableBiMap<String, ID> get() throws IOException {
         if (map == null) {
             map = loadMap(qualifier);
         }
         return map;
     }
-    
-    private ImmutableBiMap<String, ID> loadMap(byte[] qualifier) 
-    throws IOException {
+
+    private ImmutableBiMap<String, ID> loadMap(byte[] qualifier)
+            throws IOException {
         if (IDsTable == null) {
             IDsTable = HBaseConnection.getIDsTableConn();
         }
         ResultScanner scanner = IDsTable.getScanner(ID_FAMILY, qualifier);
-        ImmutableBiMap.Builder<String,ID> mapBuilder =
-                new ImmutableBiMap.Builder<String, ID>();
+        ImmutableBiMap.Builder<String, ID> mapBuilder =
+            new ImmutableBiMap.Builder<String, ID>();
         for (Result result : scanner) {
             String rowKey = (new String(result.getRow())).trim();
             if (!rowKey.equals("")) {

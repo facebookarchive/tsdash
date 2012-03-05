@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,34 +19,34 @@ import com.facebook.tsdb.tsdash.client.model.TimeRange;
 import com.facebook.tsdb.tsdash.client.model.ApplicationState.TimeMode;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class TimeRangeChangeEvent extends GwtEvent<TimeRangeChangeEventHandler>{
+public class TimeRangeChangeEvent extends GwtEvent<TimeRangeChangeEventHandler> {
 
-	public static final GwtEvent.Type<TimeRangeChangeEventHandler> TYPE =
-			new GwtEvent.Type<TimeRangeChangeEventHandler>();
-	
-	private TimeMode mode;
-	private TimeRange timeRange;
-	
-	public TimeRangeChangeEvent(TimeMode mode, TimeRange timeRange) {
-		this.mode = mode;
-		this.timeRange = timeRange;
-	}
+    public static final GwtEvent.Type<TimeRangeChangeEventHandler> TYPE =
+        new GwtEvent.Type<TimeRangeChangeEventHandler>();
 
-	public TimeMode getMode() {
-		return mode;
-	}
-	
-	public TimeRange getTimeRange() {
-		return timeRange;
-	}
-	
-	@Override
-	public GwtEvent.Type<TimeRangeChangeEventHandler> getAssociatedType() {
-		return TYPE;
-	}
-	
-	@Override
-	protected void dispatch(TimeRangeChangeEventHandler handler) {
-		handler.onChange(this);
-	}
+    private final TimeMode mode;
+    private final TimeRange timeRange;
+
+    public TimeRangeChangeEvent(TimeMode mode, TimeRange timeRange) {
+        this.mode = mode;
+        this.timeRange = timeRange;
+    }
+
+    public TimeMode getMode() {
+        return mode;
+    }
+
+    public TimeRange getTimeRange() {
+        return timeRange;
+    }
+
+    @Override
+    public GwtEvent.Type<TimeRangeChangeEventHandler> getAssociatedType() {
+        return TYPE;
+    }
+
+    @Override
+    protected void dispatch(TimeRangeChangeEventHandler handler) {
+        handler.onChange(this);
+    }
 }

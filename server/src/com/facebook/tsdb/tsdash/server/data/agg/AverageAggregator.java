@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,17 +19,20 @@ public class AverageAggregator implements Aggregator {
 
     private double sum = 0.0;
     private int count = 0;
-    
+
+    @Override
     public void reset() {
         sum = 0.0;
         count = 0;
     }
-    
+
+    @Override
     public void add(double value) {
         sum += value;
         count++;
     }
-    
+
+    @Override
     public double getValue() {
         return sum / count;
     }

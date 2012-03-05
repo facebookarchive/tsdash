@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -39,7 +39,7 @@ public class LogWidget extends Composite implements LogPresenter.LogWidget {
 
     @UiField
     HTMLPanel container;
-    
+
     @Override
     public HasWidgets container() {
         return container;

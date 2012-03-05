@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,10 +23,10 @@ import com.google.gwt.event.shared.GwtEvent;
 public class MetricHeaderEvent extends GwtEvent<MetricHeaderEventHandler> {
 
     public static final GwtEvent.Type<MetricHeaderEventHandler> TYPE =
-            new GwtEvent.Type<MetricHeaderEventHandler>();
+        new GwtEvent.Type<MetricHeaderEventHandler>();
 
-    private ArrayList<MetricHeader> headers;
-    
+    private final ArrayList<MetricHeader> headers;
+
     public MetricHeaderEvent(ArrayList<MetricHeader> headers) {
         this.headers = headers;
     }
@@ -34,7 +34,7 @@ public class MetricHeaderEvent extends GwtEvent<MetricHeaderEventHandler> {
     public ArrayList<MetricHeader> getHeaders() {
         return headers;
     }
-    
+
     @Override
     public GwtEvent.Type<MetricHeaderEventHandler> getAssociatedType() {
         return TYPE;

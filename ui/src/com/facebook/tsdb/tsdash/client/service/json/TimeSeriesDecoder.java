@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,14 +29,14 @@ public class TimeSeriesDecoder extends JSONDecoder<TimeSeriesResponse> {
         double value = dateObj.get("v").isNumber().doubleValue();
         dateObj.put("v", new JSONObject(JsDate.create(value)));
     }
-    
+
     @Override
     TimeSeriesResponse decode(String jsonText) {
         TimeSeriesResponse response = new TimeSeriesResponse();
         response.dataSize = jsonText.length();
         JSONObject jsonObj = JSONParser.parseStrict(jsonText).isObject();
-        response.serverLoadTime =
-                (long) jsonObj.get("loadtime").isNumber().doubleValue();
+        response.serverLoadTime = (long) jsonObj.get("loadtime").isNumber()
+                .doubleValue();
         response.timeSeriesJSON = jsonObj.get("datatable").isObject();
         JSONArray rowsObj = response.timeSeriesJSON.get("rows").isArray();
         response.rows = rowsObj.size();

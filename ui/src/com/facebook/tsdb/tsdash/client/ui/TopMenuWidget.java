@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,60 +28,62 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TopMenuWidget extends Composite
-	implements TopMenuPresenter.Widget {
+implements TopMenuPresenter.Widget {
 
-	private static TopMenuWidgetUiBinder uiBinder = GWT
-			.create(TopMenuWidgetUiBinder.class);
-	
-	interface TopMenuWidgetUiBinder extends UiBinder<Widget, TopMenuWidget> {
-	}
-	
-	interface TopMenuStyle extends CssResource {
-		String clicked();
-		String link();
-	}
-	
-	public TopMenuWidget() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
+    private static TopMenuWidgetUiBinder uiBinder = GWT
+            .create(TopMenuWidgetUiBinder.class);
 
-	private Object selected = null;
-	
-	@UiField
-	Anchor graph;
+    interface TopMenuWidgetUiBinder extends UiBinder<Widget, TopMenuWidget> {
+    }
 
-	@UiField
-	Anchor log;
-	
-	@UiField 
-	TopMenuStyle style;
-	
-	@Override
-	public HasClickHandlers getGraphButton() {
-		return graph;
-	}
+    interface TopMenuStyle extends CssResource {
+        String clicked();
 
-	@Override
-	public HasClickHandlers getLogButton() {
-		return log;
-	}
+        String link();
+    }
 
-	public Object getSelected() {
-		return selected;
-	}
-	
-	@Override
-	public void setSelected(Object button) {
-		if (selected == button) {
-			return;
-		}
-		if (selected != null) {
-			CssHelper.replaceClass((UIObject) selected, style.clicked(),
-					style.link());
-		}
-		selected = button;
-		CssHelper.replaceClass((UIObject) button, style.link(), 
-				style.clicked());
-	}
+    public TopMenuWidget() {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    private Object selected = null;
+
+    @UiField
+    Anchor graph;
+
+    @UiField
+    Anchor log;
+
+    @UiField
+    TopMenuStyle style;
+
+    @Override
+    public HasClickHandlers getGraphButton() {
+        return graph;
+    }
+
+    @Override
+    public HasClickHandlers getLogButton() {
+        return log;
+    }
+
+    @Override
+    public Object getSelected() {
+        return selected;
+    }
+
+    @Override
+    public void setSelected(Object button) {
+        if (selected == button) {
+            return;
+        }
+        if (selected != null) {
+            CssHelper.replaceClass((UIObject) selected, style.clicked(),
+                    style.link());
+        }
+        selected = button;
+        CssHelper
+                .replaceClass((UIObject) button, style.link(), style.clicked());
+    }
 
 }

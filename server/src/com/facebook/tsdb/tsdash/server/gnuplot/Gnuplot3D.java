@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -32,14 +32,14 @@ public class Gnuplot3D extends GnuplotProcess {
 
     private void writeGridDataPoints(Metric metric, String dataPipe)
             throws IOException {
-        BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(dataPipe)));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(dataPipe)));
         int lineCount = 0;
         // is important to add to walk the time-series by using the keys because
         // the are ordered
         for (TagsArray header : metric.timeSeries.keySet()) {
             for (DataPoint p : metric.timeSeries.get(header)) {
-                writer.write(""+ lineCount + '\t' + p.ts + '\t' + p.value);
+                writer.write("" + lineCount + '\t' + p.ts + '\t' + p.value);
                 writer.newLine();
             }
             writer.newLine();
@@ -57,8 +57,8 @@ public class Gnuplot3D extends GnuplotProcess {
         for (Metric metric : metrics) {
             metric.alignAllTimeSeries();
             if (metric.hasData()) {
-                options.addDataSource(new DataSource(getPipeFilename(i),
-                        metric.getName()));
+                options.addDataSource(new DataSource(getPipeFilename(i), metric
+                        .getName()));
                 i++;
             }
         }

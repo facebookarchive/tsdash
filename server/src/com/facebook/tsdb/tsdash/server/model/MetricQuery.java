@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +28,7 @@ public class MetricQuery {
     public String[] orders;
     public String aggregator = null;
     public String[] dissolveTags;
-    
+
     public static HashMap<String, String> decodeTags(JSONObject tagsObj) {
         HashMap<String, String> tags = new HashMap<String, String>();
         for (Object tagKeyObj : tagsObj.keySet()) {
@@ -36,7 +36,7 @@ public class MetricQuery {
         }
         return tags;
     }
-    
+
     private static String[] decodeArray(JSONArray jsonArray) {
         String[] array = new String[jsonArray.size()];
         for (int i = 0; i < array.length; i++) {
@@ -44,7 +44,7 @@ public class MetricQuery {
         }
         return array;
     }
-    
+
     public ArrayList<String> getDissolveList() {
         ArrayList<String> toDissolve = new ArrayList<String>();
         if (aggregator == null) {
@@ -59,18 +59,19 @@ public class MetricQuery {
         }
         return toDissolve;
     }
-    
+
     public static MetricQuery fromJSONObject(JSONObject src) {
         MetricQuery newQuery = new MetricQuery();
         newQuery.name = (String) src.get("name");
         newQuery.tags = decodeTags((JSONObject) src.get("tags"));
         newQuery.aggregator = (String) src.get("aggregator");
         newQuery.orders = decodeArray((JSONArray) src.get("orders"));
-        newQuery.dissolveTags = decodeArray(
-                (JSONArray) src.get("dissolveTags"));
+        newQuery.dissolveTags =
+            decodeArray((JSONArray) src.get("dissolveTags"));
         return newQuery;
     }
-    
+
+    @Override
     public String toString() {
         String ret = "Name: " + name + '\n';
         ret += "tags: " + tags + '\n';

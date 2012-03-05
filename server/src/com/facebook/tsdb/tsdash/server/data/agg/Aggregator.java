@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,12 +16,14 @@
 package com.facebook.tsdb.tsdash.server.data.agg;
 
 public interface Aggregator {
-    
+
     public enum Type {
         SUM, MIN, MAX, AVG;
     }
-    
+
     void reset();
+
     void add(double value);
+
     double getValue();
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,12 +20,12 @@ import com.google.gwt.event.shared.GwtEvent;
 public class PlotOptionsEvent extends GwtEvent<PlotOptionsEventHandler> {
 
     public static final GwtEvent.Type<PlotOptionsEventHandler> TYPE =
-            new GwtEvent.Type<PlotOptionsEventHandler>();
+        new GwtEvent.Type<PlotOptionsEventHandler>();
 
-    private boolean interactive;
-    private boolean surface;
-    private boolean palette;
-    
+    private final boolean interactive;
+    private final boolean surface;
+    private final boolean palette;
+
     public PlotOptionsEvent(boolean interactive, boolean surface,
             boolean palette) {
         this.interactive = interactive;
@@ -40,11 +40,11 @@ public class PlotOptionsEvent extends GwtEvent<PlotOptionsEventHandler> {
     public boolean surfaceEnabled() {
         return surface;
     }
-    
+
     public boolean colorPaletteEnabled() {
         return palette;
     }
-    
+
     @Override
     public GwtEvent.Type<PlotOptionsEventHandler> getAssociatedType() {
         return TYPE;

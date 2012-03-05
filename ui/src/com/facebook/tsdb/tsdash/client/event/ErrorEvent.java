@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,14 +20,14 @@ import com.google.gwt.event.shared.GwtEvent;
 public class ErrorEvent extends GwtEvent<ErrorEventHandler> {
 
     public static final GwtEvent.Type<ErrorEventHandler> TYPE =
-            new GwtEvent.Type<ErrorEventHandler>();
-    
-    private Throwable cause;
-    
+        new GwtEvent.Type<ErrorEventHandler>();
+
+    private final Throwable cause;
+
     public ErrorEvent(Throwable cause) {
         this.cause = cause;
     }
-    
+
     @Override
     public GwtEvent.Type<ErrorEventHandler> getAssociatedType() {
         return TYPE;

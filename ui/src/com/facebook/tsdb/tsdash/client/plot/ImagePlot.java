@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,19 +35,19 @@ import com.google.gwt.user.client.ui.Widget;
 public class ImagePlot extends Plot {
 
     private String url = "";
-    
+
     public ImagePlot(HandlerManager eventBus, HasWidgets container) {
         super(eventBus, container);
     }
 
     protected boolean surface = false;
     protected boolean palette = false;
-    
+
     public void setOptions(boolean surface, boolean palette) {
         this.surface = surface;
         this.palette = palette;
     }
-    
+
     @Override
     public void loadAndRender(TimeRange timeRange, ArrayList<Metric> metrics,
             HTTPService service,
@@ -58,24 +58,25 @@ public class ImagePlot extends Plot {
         int height = w.getOffsetHeight();
         service.loadPlot(timeRange, metrics, width, height, surface, palette,
                 new AsyncCallback<PlotResponse>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                callback.onFailure(caught);
-            }
-
-            @Override
-            public void onSuccess(final PlotResponse result) {
-                eventBus.fireEvent(new LogEvent("Plot Load", "" + result));
-                url = result.plotURL;
-                onRender.execute();
-                render(new Command() {
                     @Override
-                    public void execute() {
-                        callback.onSuccess(result.metrics);
+                    public void onFailure(Throwable caught) {
+                        callback.onFailure(caught);
+                    }
+
+                    @Override
+                    public void onSuccess(final PlotResponse result) {
+                        eventBus.fireEvent(new LogEvent("Plot Load", ""
+                                + result));
+                        url = result.plotURL;
+                        onRender.execute();
+                        render(new Command() {
+                            @Override
+                            public void execute() {
+                                callback.onSuccess(result.metrics);
+                            }
+                        });
                     }
                 });
-            }
-        });
     }
 
     @Override

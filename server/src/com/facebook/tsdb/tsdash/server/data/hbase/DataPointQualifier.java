@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,10 +16,10 @@
 package com.facebook.tsdb.tsdash.server.data.hbase;
 
 public class DataPointQualifier {
-    
+
     private static final int QUALIFIER_BYTES = 2;
     private static final int QUALIFIER_FLAGS_BITS = 4;
-    
+
     public static byte[] packedOffset(long offset) {
         byte[] packed = new byte[QUALIFIER_BYTES];
         offset = offset << QUALIFIER_FLAGS_BITS;
@@ -30,7 +30,7 @@ public class DataPointQualifier {
         }
         return packed;
     }
-    
+
     public static int offsetFromQualifier(byte[] qualifier) {
         int offset = 0;
         for (int i = 0; i < QUALIFIER_BYTES; i++) {
@@ -38,7 +38,7 @@ public class DataPointQualifier {
         }
         return offset >> QUALIFIER_FLAGS_BITS;
     }
-    
+
     public static boolean isFloat(byte[] qualifier) {
         return (qualifier[QUALIFIER_BYTES - 1] & 0x08) != 0;
     }

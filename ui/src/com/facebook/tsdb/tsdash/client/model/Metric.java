@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,71 +25,71 @@ import com.google.gwt.json.client.JSONString;
 
 public class Metric {
 
-	public String name;
-	public boolean rightAxis = false;
-	public boolean rate = false;
-	public String aggregator = null;
-	public HashMap<String, String> tags = new HashMap<String, String>();
-	public boolean plottable = true;
-	public MetricHeader header;
-	
-	public Metric(String name) {
-	    this.name = name;
-	    header = new MetricHeader(name);
-	}
-	
-	public Metric(String name, MetricHeader header) {
-		this.name = name;
-		this.header = header;
-	}
-	
+    public String name;
+    public boolean rightAxis = false;
+    public boolean rate = false;
+    public String aggregator = null;
+    public HashMap<String, String> tags = new HashMap<String, String>();
+    public boolean plottable = true;
+    public MetricHeader header;
+
+    public Metric(String name) {
+        this.name = name;
+        header = new MetricHeader(name);
+    }
+
+    public Metric(String name, MetricHeader header) {
+        this.name = name;
+        this.header = header;
+    }
+
     public Metric(JSONObject obj) throws Exception {
         fromJSON(obj);
         header = new MetricHeader(name);
         plottable = true;
     }
-    
-	public boolean isPlottable() {
-	    return plottable;
-	}
-	
-	public boolean isAggregated() {
-	    return aggregator != null;
-	}
-	
-	public boolean allowsAggregation() {
-	    if (aggregator != null) {
-	        return true;
-	    }
-	    for (String tag : header.tagsSet.keySet()) {
-	        if (header.tagsSet.get(tag).size() > 1) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
-	
-	public Metric clone() {
-	    Metric newMetric = new Metric(name, header);
-	    newMetric.rightAxis = rightAxis;
-	    newMetric.rate = rate;
-	    newMetric.aggregator = aggregator;
-	    for (String tag : tags.keySet()) {
-	        newMetric.tags.put(tag, tags.get(tag));
-	    }
-	    newMetric.plottable = false;
-	    return newMetric;
-	}
-	
-	public String getSignature() {
-	    String sig = name;
-	    for (String tag : tags.keySet()) {
-	        sig += tag + "=" + tags.get(tag);
-	    }
-	    return sig;
-	}
-	
-	public JSONObject encodeTags() {
+
+    public boolean isPlottable() {
+        return plottable;
+    }
+
+    public boolean isAggregated() {
+        return aggregator != null;
+    }
+
+    public boolean allowsAggregation() {
+        if (aggregator != null) {
+            return true;
+        }
+        for (String tag : header.tagsSet.keySet()) {
+            if (header.tagsSet.get(tag).size() > 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Metric dup() {
+        Metric newMetric = new Metric(name, header);
+        newMetric.rightAxis = rightAxis;
+        newMetric.rate = rate;
+        newMetric.aggregator = aggregator;
+        for (String tag : tags.keySet()) {
+            newMetric.tags.put(tag, tags.get(tag));
+        }
+        newMetric.plottable = false;
+        return newMetric;
+    }
+
+    public String getSignature() {
+        String sig = name;
+        for (String tag : tags.keySet()) {
+            sig += tag + "=" + tags.get(tag);
+        }
+        return sig;
+    }
+
+    public JSONObject encodeTags() {
         JSONObject tagsMap = new JSONObject();
         for (String key : tags.keySet()) {
             String tagValue = tags.get(key);
@@ -100,22 +100,22 @@ public class Metric {
             }
         }
         return tagsMap;
-	}
-	
-	public JSONObject toJSONParam() {
-	    JSONObject obj = new JSONObject();
-	    obj.put("name", new JSONString(name));
-	    obj.put("tags", encodeTags());
-	    obj.put("orders", new JSONArray());
-	    if (aggregator == null) {
-	        obj.put("aggregator", JSONNull.getInstance());
-	    } else {
-	        obj.put("aggregator", new JSONString(aggregator));
-	    }
-	    obj.put("dissolveTags", new JSONArray());
-	    return obj;
-	}
-	
+    }
+
+    public JSONObject toJSONParam() {
+        JSONObject obj = new JSONObject();
+        obj.put("name", new JSONString(name));
+        obj.put("tags", encodeTags());
+        obj.put("orders", new JSONArray());
+        if (aggregator == null) {
+            obj.put("aggregator", JSONNull.getInstance());
+        } else {
+            obj.put("aggregator", new JSONString(aggregator));
+        }
+        obj.put("dissolveTags", new JSONArray());
+        return obj;
+    }
+
     public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
         obj.put("name", new JSONString(name));
@@ -129,19 +129,19 @@ public class Metric {
         }
         return obj;
     }
-    
-	public void fromJSON(JSONObject obj) throws Exception {
-		name = obj.get("name").isString().stringValue();
-		rightAxis = obj.get("ry").isBoolean().booleanValue();
-		rate = obj.get("rate").isBoolean().booleanValue();
-		if (obj.get("aggregator").isString() != null) {
-		    aggregator = obj.get("aggregator").isString().stringValue();
-		} else {
-		    aggregator = null;
-		}
-		JSONObject tagsMap = obj.get("tags").isObject();
-		for (String key : tagsMap.keySet()) {
-			tags.put(key, tagsMap.get(key).isString().stringValue());
-		}
-	}
+
+    public void fromJSON(JSONObject obj) throws Exception {
+        name = obj.get("name").isString().stringValue();
+        rightAxis = obj.get("ry").isBoolean().booleanValue();
+        rate = obj.get("rate").isBoolean().booleanValue();
+        if (obj.get("aggregator").isString() != null) {
+            aggregator = obj.get("aggregator").isString().stringValue();
+        } else {
+            aggregator = null;
+        }
+        JSONObject tagsMap = obj.get("tags").isObject();
+        for (String key : tagsMap.keySet()) {
+            tags.put(key, tagsMap.get(key).isString().stringValue());
+        }
+    }
 }

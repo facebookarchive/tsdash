@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,6 +33,7 @@ import com.facebook.tsdb.tsdash.server.model.MetricQuery;
 
 /**
  * fetches the header information (tags set, common tags) for a given time frame
+ *
  * @author cgheorghe
  *
  */
@@ -43,11 +44,12 @@ public class MetricHeaderEndpoint extends TsdbServlet {
     /**
      * GET params:
      * "metric" - metric name
-     * "from"   - start of the time range
-     * "to"     - end of the time range
+     * "from" - start of the time range
+     * "to" - end of the time range
      */
-    public void doGet(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         PrintWriter out = response.getWriter();
         try {
             // decode parameters
@@ -60,8 +62,8 @@ public class MetricHeaderEndpoint extends TsdbServlet {
             long tsFrom = (Long) jsonParamsObj.get("tsFrom");
             long tsTo = (Long) jsonParamsObj.get("tsTo");
             String metricName = (String) jsonParamsObj.get("metric");
-            HashMap<String, String> tags = MetricQuery.decodeTags(
-                    (JSONObject) jsonParamsObj.get("tags"));
+            HashMap<String, String> tags = MetricQuery
+                    .decodeTags((JSONObject) jsonParamsObj.get("tags"));
             if (metricName == null) {
                 throw new Exception("Missing parameter");
             }

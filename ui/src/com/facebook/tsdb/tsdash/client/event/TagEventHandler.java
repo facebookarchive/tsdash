@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,6 +19,7 @@ import com.google.gwt.event.shared.EventHandler;
 
 public interface TagEventHandler extends EventHandler {
 
-	public void onSet(TagEvent event);
-	public void onRemove(TagEvent event);
+    public void onSet(TagEvent event);
+
+    public void onRemove(TagEvent event);
 }

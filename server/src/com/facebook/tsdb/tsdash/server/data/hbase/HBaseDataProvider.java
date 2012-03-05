@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,24 +34,24 @@ import com.facebook.tsdb.tsdash.server.model.TagsArray;
 
 public class HBaseDataProvider implements TsdbDataProvider {
 
-    protected static Logger logger =
-            Logger.getLogger("com.facebook.tsdb.services");
-    
+    protected static Logger logger = Logger
+            .getLogger("com.facebook.tsdb.services");
+
     public static final String ID_FAMILY = "id";
     public static final String NAME_FAMILY = "name";
     public static final String DATAPOINT_FAMILY = "t";
-    
+
     public static final String METRIC_QUALIFIER = "metrics";
     public static final String TAG_QUALIFIER = "tagk";
     public static final String TAG_VALUE_QUALIFIER = "tagv";
-    
-    private HTable dataTable;
-    private IDMap idMap = new IDMap();
-    
+
+    private final HTable dataTable;
+    private final IDMap idMap = new IDMap();
+
     public HBaseDataProvider() throws IOException {
         dataTable = HBaseConnection.getDataTableConn();
     }
-    
+
     private void pickDataPoints(ArrayList<DataPoint> dataPoints,
             RowRange rowRange, byte[] rowKey, Map<byte[], byte[]> cells) {
         boolean first = Bytes.startsWith(rowKey, rowRange.getStart());
@@ -84,7 +84,7 @@ public class HBaseDataProvider implements TsdbDataProvider {
         }
         return tagsIDs.toArray(new ID[0]);
     }
-    
+
     @Override
     public Metric fetchMetric(String metric, long startTs, long toTs,
             Map<String, String> tags, String[] tagOrders) throws Exception {
@@ -93,7 +93,7 @@ public class HBaseDataProvider implements TsdbDataProvider {
         RowRange rowRange = new RowRange(metricID.id, startTs, toTs);
         RowTagFilter tagFilter = new RowTagFilter(tags, idMap);
         ID[] tagsPrio = getTagIDs(tagOrders);
-        
+
         Scan scan = new Scan(rowRange.getStart(), rowRange.getStop());
         if (tags.size() > 0) {
             scan.setFilter(tagFilter.getRemoteFilter());
@@ -115,8 +115,8 @@ public class HBaseDataProvider implements TsdbDataProvider {
             }
             count++;
         }
-        logger.info(metric + ": " + count + " rows scanned, "
-                + falsePositives + " false positives found");
+        logger.info(metric + ": " + count + " rows scanned, " + falsePositives
+                + " false positives found");
         return metricData;
     }
 
@@ -127,7 +127,7 @@ public class HBaseDataProvider implements TsdbDataProvider {
         Metric metricData = new Metric(metricID.id, metric, idMap);
         RowRange rowRange = new RowRange(metricID.id, startTs, toTs);
         RowTagFilter tagFilter = new RowTagFilter(tags, idMap);
-        
+
         Scan scan = new Scan(rowRange.getStart(), rowRange.getStop());
         if (tags.size() > 0) {
             scan.setFilter(tagFilter.getRemoteFilter());
@@ -141,12 +141,12 @@ public class HBaseDataProvider implements TsdbDataProvider {
             if (tagFilter.filterRow(rowTags.asArray())) {
                 falsePositives++;
             } else if (!metricData.timeSeries.containsKey(rowTags)) {
-                metricData.timeSeries.put(rowTags, new ArrayList<DataPoint>());   
+                metricData.timeSeries.put(rowTags, new ArrayList<DataPoint>());
             }
             count++;
         }
-        logger.info("Fetching header for " + metric + ": " + count
-                + " rows, " + falsePositives + " false positives");
+        logger.info("Fetching header for " + metric + ": " + count + " rows, "
+                + falsePositives + " false positives");
         return metricData;
     }
 
@@ -154,7 +154,7 @@ public class HBaseDataProvider implements TsdbDataProvider {
     public String[] getMetrics() throws Exception {
         return idMap.getMetrics();
     }
-    
+
     @Override
     public String[] getTags(String metric) throws Exception {
         return idMap.getTags();

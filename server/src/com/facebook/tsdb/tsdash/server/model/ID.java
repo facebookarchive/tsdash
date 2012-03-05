@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,11 +23,11 @@ import com.google.common.primitives.UnsignedBytes;
 public class ID implements Comparable<ID> {
 
     public static final int BYTES = 3;
-    private static final byte[] null_id = {0, 0, 0};
+    private static final byte[] null_id = { 0, 0, 0 };
     public static final ID NULL_ID = new ID(null_id);
-    
+
     public byte[] id;
-    
+
     public ID(byte[] id) {
         this.id = id;
     }
@@ -38,19 +38,21 @@ public class ID implements Comparable<ID> {
                 other.id);
         return ret;
     }
-    
+
     public boolean isNull() {
         return this == NULL_ID || this.compareTo(NULL_ID) == 0;
     }
-    
+
+    @Override
     public String toString() {
         return UnsignedBytes.join(".", id);
     }
-    
+
+    @Override
     public int hashCode() {
         return Arrays.hashCode(id);
     }
-    
+
     public String toHexString() {
         return Pattern.quote(new String(id));
     }

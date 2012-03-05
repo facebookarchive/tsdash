@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -38,13 +38,13 @@ import com.facebook.tsdb.tsdash.server.data.hbase.HBaseConnection;
 
 public class TsdbServlet extends HttpServlet {
 
-    protected static Logger logger =
-            Logger.getLogger("com.facebook.tsdb.services");
-    
+    protected static Logger logger = Logger
+            .getLogger("com.facebook.tsdb.services");
+
     private static final long serialVersionUID = 1L;
     public static final String PROPERTIES_FILE = "conf/tsdash.properties";
     public static final String LOG4J_PROPERTIES_FILE = "conf/log4j.properties";
-    
+
     public static final String URL_PATTERN_PARAM = "plot.tsdash.urlpattern";
     public static final String DEFAULT_URL_PATTERN = "http://%h:%p/plots/%f";
     public static final int DEFAULT_PLOT_PORT = 8090;
@@ -53,7 +53,7 @@ public class TsdbServlet extends HttpServlet {
     public static String plotsDir = DEFAULT_PLOTS_DIR;
     private static String URLPattern = DEFAULT_URL_PATTERN;
     private String hostname = null;
-    
+
     private static void loadConfiguration() {
         Properties tsdbConf = new Properties();
         try {
@@ -63,8 +63,7 @@ public class TsdbServlet extends HttpServlet {
             URLPattern = tsdbConf.getProperty(URL_PATTERN_PARAM,
                     DEFAULT_URL_PATTERN);
             logger.info("URL pattern: " + URLPattern);
-            plotsDir = tsdbConf.getProperty(PLOTS_DIR_PARAM,
-            		DEFAULT_PLOTS_DIR);
+            plotsDir = tsdbConf.getProperty(PLOTS_DIR_PARAM, DEFAULT_PLOTS_DIR);
             logger.info("Plots are being written to: " + plotsDir);
         } catch (FileNotFoundException e) {
             System.err.println("Cannot find " + PROPERTIES_FILE);
@@ -72,16 +71,16 @@ public class TsdbServlet extends HttpServlet {
             System.err.println("Cannot read " + PROPERTIES_FILE);
         }
     }
-    
+
     static {
         loadConfiguration();
     }
-    
-    protected String generatePlotURL(String filenamePath) 
+
+    protected String generatePlotURL(String filenamePath)
             throws UnknownHostException {
         File plot = new File(filenamePath);
         if (hostname == null) {
-            hostname =  InetAddress.getLocalHost().getHostName();
+            hostname = InetAddress.getLocalHost().getHostName();
         }
         String URL = URLPattern.replace("%h", hostname);
         URL = URL.replace("%p", "" + DEFAULT_PLOT_PORT);
@@ -98,9 +97,10 @@ public class TsdbServlet extends HttpServlet {
         errObj.put("stacktrace", stackTrace.toString());
         return errObj.toJSONString();
     }
-    
-    public void doPost(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
 }

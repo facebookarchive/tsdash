@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Facebook, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,189 +35,191 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
-public class SelectTimeWidget extends Composite 
-	implements TimePresenter.TimeWidget {
+public class SelectTimeWidget extends Composite implements
+        TimePresenter.TimeWidget {
 
-	private static SelectTimeWidgetUiBinder uiBinder = GWT
-			.create(SelectTimeWidgetUiBinder.class);
+    private static SelectTimeWidgetUiBinder uiBinder = GWT
+            .create(SelectTimeWidgetUiBinder.class);
 
-	interface SelectTimeWidgetUiBinder extends
-			UiBinder<Widget, SelectTimeWidget> {
-	}
+    interface SelectTimeWidgetUiBinder extends
+            UiBinder<Widget, SelectTimeWidget> {
+    }
 
-	interface Style extends CssResource {
-		String active();
-		String selected();
-		String historySelected();
-	}
-	
-	private HashMap<Object, Panel> modeContainers = 
-			new HashMap<Object, Panel>();
-	private Object selectedMode = null;
-	private Object selectedHistory = null;
-	
-	@UiField
-	Anchor historyButton;
-	
-	@UiField
-	Anchor absoluteButton;
-	
-	@UiField
-	Style style;
-	
-	@UiField
-	Panel absoluteContainer;
-	
-	@UiField
-	Panel absoluteFromContainer;
-	
-	@UiField
-	Panel absoluteToContainer;
-	
-	@UiField
-	Panel historyContainer;
-	
-	@UiField
-	RadioButton last15m;
-	
-	@UiField
-	RadioButton last1h;
-	
-	@UiField
-	RadioButton last6h;
-	
-	@UiField
-	RadioButton last1d;
-	
-	@UiField
-	RadioButton last1w;
-	
-	DateBox fromDateBox = new DateBox();
-	DateBox toDateBox = new DateBox();
-	
-	public SelectTimeWidget() {
-		initWidget(uiBinder.createAndBindUi(this));
-		// add the Date boxes
-		DateTimeFormat dateFormat =
-		        DateTimeFormat.getFormat("EEE, MMM d, HH:mm");
-		fromDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
-		toDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
-		Date now = new Date();
-		fromDateBox.setValue(new Date(now.getTime() - 15 * 60 * 1000), false);
-		toDateBox.setValue(now);
-		absoluteFromContainer.add(fromDateBox);
-		absoluteToContainer.add(toDateBox);
-		// hook the containers to the mode buttons
-		modeContainers.put(historyButton, historyContainer);
-		modeContainers.put(absoluteButton, absoluteContainer);
-	}
+    interface Style extends CssResource {
+        String active();
 
-	@Override
-	public HasClickHandlers historyModeButton() {
-		return historyButton;
-	}
+        String selected();
 
-	@Override
-	public HasClickHandlers absoluteModeButton() {
-		return absoluteButton;
-	}
+        String historySelected();
+    }
 
-	@Override
-	public Object selectedMode() {
-		return selectedMode;
-	}
+    private final HashMap<Object, Panel> modeContainers =
+        new HashMap<Object, Panel>();
+    private Object selectedMode = null;
+    private Object selectedHistory = null;
 
-	@Override
-	public void selectedMode(Object button) {
-		if (button == selectedMode) {
-			return;
-		}
-		if (selectedMode != null) {
-			CssHelper.replaceClass((UIObject) selectedMode, style.selected(), 
-					style.active());
-			modeContainers.get(selectedMode).setVisible(false);
-		}
-		if (button != null) {
-			CssHelper.replaceClass((UIObject) button, style.active(),
-					style.selected());
-			modeContainers.get(button).setVisible(true);
-		}
-		selectedMode = button;
-	}
+    @UiField
+    Anchor historyButton;
 
-	@Override
-	public HasClickHandlers last15mButton() {
-		return last15m;
-	}
+    @UiField
+    Anchor absoluteButton;
 
-	@Override
-	public HasClickHandlers last1hButton() {
-		return last1h;
-	}
+    @UiField
+    Style style;
 
-	@Override
-	public HasClickHandlers last6hButton() {
-		return last6h;
-	}
+    @UiField
+    Panel absoluteContainer;
 
-	@Override
-	public HasClickHandlers last1dButton() {
-		return last1d;
-	}
+    @UiField
+    Panel absoluteFromContainer;
 
-	@Override
-	public HasClickHandlers last1wButton() {
-		return last1w;
-	}
+    @UiField
+    Panel absoluteToContainer;
 
-	@Override
-	public Object selectedHistory() {
-		return selectedHistory;
-	}
+    @UiField
+    Panel historyContainer;
 
-	@Override
-	public void selectedHistory(Object button) {
-		if (selectedHistory == button) {
-			return;
-		}
-		if (selectedHistory != null) {
-			CssHelper.toggleClass((UIObject) selectedHistory, 
-					style.historySelected());
-			RadioButton radio = (RadioButton) selectedHistory;
-			if (button == null) {
-				radio.setValue(false);
-			}
-		}
-		if (button != null) {
-			CssHelper.toggleClass((UIObject) button, style.historySelected());
-		}
-		selectedHistory = button;
-		if (selectedHistory != null) {
-			RadioButton radio = (RadioButton) selectedHistory;
-			if (!radio.getValue()) {
-				radio.setValue(true);
-			}
-		}
-	}
+    @UiField
+    RadioButton last15m;
 
-	@Override
-	public HasValue<Date> timeFromValue() {
-		return fromDateBox;
-	}
+    @UiField
+    RadioButton last1h;
 
-	@Override
-	public HasValue<Date> timeToValue() {
-		return toDateBox;
-	}
+    @UiField
+    RadioButton last6h;
 
-	@Override
-	public HasValueChangeHandlers<Date> timeFrom() {
-		return fromDateBox;
-	}
+    @UiField
+    RadioButton last1d;
 
-	@Override
-	public HasValueChangeHandlers<Date> timeTo() {
-		return toDateBox;
-	}
+    @UiField
+    RadioButton last1w;
+
+    DateBox fromDateBox = new DateBox();
+    DateBox toDateBox = new DateBox();
+
+    public SelectTimeWidget() {
+        initWidget(uiBinder.createAndBindUi(this));
+        // add the Date boxes
+        DateTimeFormat dateFormat = DateTimeFormat
+                .getFormat("EEE, MMM d, HH:mm");
+        fromDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
+        toDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
+        Date now = new Date();
+        fromDateBox.setValue(new Date(now.getTime() - 15 * 60 * 1000), false);
+        toDateBox.setValue(now);
+        absoluteFromContainer.add(fromDateBox);
+        absoluteToContainer.add(toDateBox);
+        // hook the containers to the mode buttons
+        modeContainers.put(historyButton, historyContainer);
+        modeContainers.put(absoluteButton, absoluteContainer);
+    }
+
+    @Override
+    public HasClickHandlers historyModeButton() {
+        return historyButton;
+    }
+
+    @Override
+    public HasClickHandlers absoluteModeButton() {
+        return absoluteButton;
+    }
+
+    @Override
+    public Object selectedMode() {
+        return selectedMode;
+    }
+
+    @Override
+    public void selectedMode(Object button) {
+        if (button == selectedMode) {
+            return;
+        }
+        if (selectedMode != null) {
+            CssHelper.replaceClass((UIObject) selectedMode, style.selected(),
+                    style.active());
+            modeContainers.get(selectedMode).setVisible(false);
+        }
+        if (button != null) {
+            CssHelper.replaceClass((UIObject) button, style.active(),
+                    style.selected());
+            modeContainers.get(button).setVisible(true);
+        }
+        selectedMode = button;
+    }
+
+    @Override
+    public HasClickHandlers last15mButton() {
+        return last15m;
+    }
+
+    @Override
+    public HasClickHandlers last1hButton() {
+        return last1h;
+    }
+
+    @Override
+    public HasClickHandlers last6hButton() {
+        return last6h;
+    }
+
+    @Override
+    public HasClickHandlers last1dButton() {
+        return last1d;
+    }
+
+    @Override
+    public HasClickHandlers last1wButton() {
+        return last1w;
+    }
+
+    @Override
+    public Object selectedHistory() {
+        return selectedHistory;
+    }
+
+    @Override
+    public void selectedHistory(Object button) {
+        if (selectedHistory == button) {
+            return;
+        }
+        if (selectedHistory != null) {
+            CssHelper.toggleClass((UIObject) selectedHistory,
+                    style.historySelected());
+            RadioButton radio = (RadioButton) selectedHistory;
+            if (button == null) {
+                radio.setValue(false);
+            }
+        }
+        if (button != null) {
+            CssHelper.toggleClass((UIObject) button, style.historySelected());
+        }
+        selectedHistory = button;
+        if (selectedHistory != null) {
+            RadioButton radio = (RadioButton) selectedHistory;
+            if (!radio.getValue()) {
+                radio.setValue(true);
+            }
+        }
+    }
+
+    @Override
+    public HasValue<Date> timeFromValue() {
+        return fromDateBox;
+    }
+
+    @Override
+    public HasValue<Date> timeToValue() {
+        return toDateBox;
+    }
+
+    @Override
+    public HasValueChangeHandlers<Date> timeFrom() {
+        return fromDateBox;
+    }
+
+    @Override
+    public HasValueChangeHandlers<Date> timeTo() {
+        return toDateBox;
+    }
 
 }
