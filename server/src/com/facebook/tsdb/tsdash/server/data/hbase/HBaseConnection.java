@@ -31,6 +31,7 @@ public class HBaseConnection {
     public static final String TSDB_DATA_TABLE = "hbase.tsdash.datatable";
     public static final String TSDB_UID_TABLE = "hbase.tsdash.uidtable";
     public static final String ZK_QUORUM = "hbase.zookeeper.quorum";
+    public static final String ZK_CLIENTPORT = "hbase.zookeeper.property.clientPort";
     public static final String ZK_ZNODE_PARENT = "zookeeper.znode.parent";
 
     private static String dataTable = "tsdb";
@@ -41,11 +42,14 @@ public class HBaseConnection {
     public static void configure(Properties tsdbConf) {
         dataTable = tsdbConf.getProperty(TSDB_DATA_TABLE, dataTable);
         idsTable = tsdbConf.getProperty(TSDB_UID_TABLE, idsTable);
-        final String zookeeperQuorum = tsdbConf.getProperty(ZK_QUORUM,
-                "localhost");
-        final String parentZnode = tsdbConf.getProperty(ZK_ZNODE_PARENT,
-                "/hbase");
+        final String zookeeperQuorum =
+            tsdbConf.getProperty(ZK_QUORUM,"localhost");
+        final String zookeeperClientPort =
+            tsdbConf.getProperty(ZK_CLIENTPORT,"2181");
+        final String parentZnode =
+            tsdbConf.getProperty(ZK_ZNODE_PARENT, "/hbase");
         conf.setStrings(ZK_QUORUM, zookeeperQuorum);
+        conf.setStrings(ZK_CLIENTPORT, zookeeperClientPort);
         conf.setStrings(ZK_ZNODE_PARENT, parentZnode);
         logger.info("HBase configuration: " + " using tables '" + dataTable
                 + "', " + "'" + idsTable + "', quorum '" + zookeeperQuorum
