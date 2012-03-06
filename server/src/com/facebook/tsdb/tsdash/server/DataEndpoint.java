@@ -70,6 +70,9 @@ public class DataEndpoint extends TsdbServlet {
                         q.tags, q.orders);
                 metrics[i] = metrics[i].dissolveTags(q.getDissolveList(),
                         q.aggregator);
+                if (q.rate) {
+                    metrics[i].computeRate();
+                }
             }
             long loadTime = System.currentTimeMillis() - ts;
             JSONObject responseObj = new JSONObject();

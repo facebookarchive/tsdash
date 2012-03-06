@@ -77,6 +77,9 @@ public class PlotEndpoint extends TsdbServlet {
                         q.tags, q.orders);
                 metrics[i] = metrics[i].dissolveTags(q.getDissolveList(),
                         q.aggregator);
+                if (q.rate) {
+                    metrics[i].computeRate();
+                }
             }
             long loadTime = System.currentTimeMillis() - ts;
             // check to see if we have data
@@ -99,8 +102,8 @@ public class PlotEndpoint extends TsdbServlet {
             GnuplotProcess gnuplot = GnuplotProcess.create(surface);
             GnuplotOptions options = new GnuplotOptions(surface);
             options.enablePalette(palette);
-            options.setDimensions((int) width, (int) height).setTimeRange(
-                    tsFrom, tsTo);
+            options.setDimensions((int) width, (int) height)
+                   .setTimeRange(tsFrom, tsTo);
             String plotFilename = gnuplot.plot(metrics, options);
             gnuplot.close();
 

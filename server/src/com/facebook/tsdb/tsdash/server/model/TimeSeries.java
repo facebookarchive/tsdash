@@ -119,4 +119,20 @@ public class TimeSeries {
         }
         return aggregated;
     }
+
+    /**
+     * Compute the rate for the given timeseries in-place
+     * @param points
+     */
+    public static void computeRate(ArrayList<DataPoint> points) {
+        for (int i = points.size() - 1; i > 0; i--) {
+            DataPoint p1 = points.get(i);
+            DataPoint p0 = points.get(i - 1);
+            double rate = (p1.value - p0.value) / (p1.ts - p0.ts);
+            p1.value = rate;
+        }
+        if (points.size() > 1) {
+            points.get(0).value = points.get(1).value;
+        }
+    }
 }

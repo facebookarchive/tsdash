@@ -77,6 +77,7 @@ under the License.
 	   text-align: center;
 	   line-height: 20px;
 	   margin-top: 3px;
+	   margin-right: 3px;
   }
   
   .metric .aggregator {
@@ -130,7 +131,7 @@ under the License.
 			<g:HTMLPanel styleName="{style.commit}">
 			 <g:Button ui:field="commit" enabled="true">add to plot</g:Button>
 			</g:HTMLPanel>
-			<g:Label visible="false" ui:field="rate" styleName="{style.toggleButton}" title="display the rate - delta/time">/s</g:Label>
+			<g:Label ui:field="rate" styleName="{style.toggleButton}" title="display the rate - delta/time">/s</g:Label>
 			<g:HTML styleName="clear"></g:HTML>
 		</g:HTMLPanel>
 		<g:HTMLPanel styleName="{style.tags}" ui:field="tags">

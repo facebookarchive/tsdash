@@ -105,6 +105,7 @@ public class Metric {
     public JSONObject toJSONParam() {
         JSONObject obj = new JSONObject();
         obj.put("name", new JSONString(name));
+        obj.put("rate", JSONBoolean.getInstance(rate));
         obj.put("tags", encodeTags());
         obj.put("orders", new JSONArray());
         if (aggregator == null) {

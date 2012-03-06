@@ -33,6 +33,7 @@ public class GnuplotOptions {
     private long tsTo = 0;
     private boolean surface;
     private boolean palette = false;
+    private boolean displayRate = false;
 
     public GnuplotOptions(boolean surface) {
         this.surface = surface;
@@ -44,6 +45,11 @@ public class GnuplotOptions {
 
     public void clearDataSources() {
         dataSources.clear();
+    }
+
+    public GnuplotOptions setDisplayRate(boolean rate) {
+        displayRate = rate;
+        return this;
     }
 
     public GnuplotOptions setDimensions(int width, int height) {
@@ -124,13 +130,21 @@ public class GnuplotOptions {
         return "splot " + cmd;
     }
 
+    private String getValueFormat() {
+        final String Y_FORMAT = "%.1s %c";
+        if (displayRate) {
+            return '"' + Y_FORMAT + "/s" + '"';
+        }
+        return '"' + Y_FORMAT + '"';
+    }
+
     private String generateLinePointsScript() {
         String script = "reset\n";
         script += "set terminal " + terminal.toString().toLowerCase()
                 + " size " + width + "," + height + "\n";
         script += "set xdata time\n";
         script += "set timefmt \"%s\"\n";
-        script += "set format y \"%.1s %c\"\n";
+        script += "set format y " + getValueFormat() + "\n";
         script += "set xtic rotate\n";
         if (tsFrom > 0 && tsTo > 0) {
             script += "set xrange [\"" + tsFrom + "\":\"" + tsTo + "\"]\n";
@@ -149,8 +163,8 @@ public class GnuplotOptions {
                 + " size " + width + "," + height + "\n";
         script += "set ydata time\n";
         script += "set timefmt \"%s\"\n";
-        script += "set format z \"%.1s %c\"\n";
-        script += "set format cb \"%.1s %c\"\n";
+        script += "set format z " + getValueFormat() + "\n";
+        script += "set format cb " + getValueFormat() + "\n";
         script += "set grid\n";
         script += "set xtics 1\n";
         script += "set hidden3d trianglepattern 7\n";

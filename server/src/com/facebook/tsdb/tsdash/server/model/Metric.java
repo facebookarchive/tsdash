@@ -68,6 +68,7 @@ public class Metric {
             Tag.arrayComparator());
     private final HashSet<String> dissolvedTags = new HashSet<String>();
     private String aggregatorName = null;
+    private boolean rate = false;
 
     public Metric(byte[] id, String name, IDMap idMap) {
         this.id = id;
@@ -225,10 +226,6 @@ public class Metric {
         return cycle;
     }
 
-    public void addTrailingNulls() {
-
-    }
-
     public void alignAllTimeSeries() {
         long cycle = guessTimeCycle();
         // wrap the time stamps to a multiple of cycle
@@ -365,6 +362,20 @@ public class Metric {
                     TimeSeries.aggregate(dissolved.get(header), aggregator));
         }
         return newData;
+    }
+
+    /**
+     * replace the time series with the rate of change
+     */
+    public void computeRate() {
+        for (ArrayList<DataPoint> points : timeSeries.values()) {
+            TimeSeries.computeRate(points);
+        }
+        rate = true;
+    }
+
+    public boolean isRate() {
+        return rate;
     }
 
     @SuppressWarnings("unchecked")

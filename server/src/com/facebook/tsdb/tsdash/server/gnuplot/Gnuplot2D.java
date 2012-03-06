@@ -41,19 +41,32 @@ public class Gnuplot2D extends GnuplotProcess {
         writer.close();
     }
 
+    private String renderLineTitle(Metric metric, TagsArray rowTags) {
+        String suffix = metric.isRate() ? " /s" : "";
+        return metric.getName() + "{" + rowTags.getTitle() + "}" + suffix;
+    }
+
     @Override
     public String plot(Metric[] metrics, GnuplotOptions options)
             throws Exception {
         int count = 0;
+        int rates = 0;
         for (Metric metric : metrics) {
             for (ArrayList<DataPoint> dataPoints : metric.timeSeries.values()) {
                 if (dataPoints.size() > 0) {
                     count++;
                 }
             }
+            if (metric.isRate()) {
+                rates++;
+            }
         }
         if (count == 0) {
             return noDataFilename();
+        }
+        // we enable rate display (/s) on the y axis
+        if (count == rates) {
+            options.setDisplayRate(true);
         }
         createPipes(count);
         options.clearDataSources();
@@ -62,7 +75,7 @@ public class Gnuplot2D extends GnuplotProcess {
             for (TagsArray rowTags : metric.timeSeries.keySet()) {
                 if (metric.timeSeries.get(rowTags).size() > 0) {
                     options.addDataSource(new DataSource(getPipeFilename(i),
-                            metric.getName() + "{" + rowTags.getTitle() + "}"));
+                           renderLineTitle(metric, rowTags)));
                     i++;
                 }
             }

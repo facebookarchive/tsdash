@@ -40,14 +40,18 @@ public class DataTable {
         return col;
     }
 
+    private String renderLineTitle(Metric metric, TagsArray tags) {
+        String suffix = metric.isRate() ? " /s" : "";
+        return metric.getName() + ": " + tags.getTitle() + suffix;
+    }
+
     @SuppressWarnings("unchecked")
     private JSONArray generateColumns() {
         JSONArray cols = new JSONArray();
         cols.add(newColumn("Date", "datetime"));
         for (Metric metric : metrics) {
             for (TagsArray timeSeries : metric.timeSeries.keySet()) {
-                cols.add(newColumn(
-                        metric.getName() + ": " + timeSeries.getTitle(),
+                cols.add(newColumn(renderLineTitle(metric, timeSeries),
                         "number"));
             }
         }
