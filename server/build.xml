@@ -13,9 +13,9 @@
 
   <target name="compile" depends="init"
         description="compile the source ">
-    <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+    <javac srcdir="${src}" destdir="${build}" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
       <classpath>
-	<fileset dir="${lib}" includes="*.jar"/>
+		<fileset dir="${lib}" includes="*.jar"/>
       </classpath>
     </javac>
   </target>
